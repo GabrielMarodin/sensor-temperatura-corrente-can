@@ -1,4 +1,4 @@
-Módulo CAN para depuração do barco solar (Exemplo do nome do projeto)
+Monitoramento de temperatura e corrente via CAN do barco solar
 #####################################################################
 
 .. contents::
