@@ -35,8 +35,8 @@ O sistema contempla:
 
 **Requisitos Funcionais**
 
-+ Deve ser possível realizar a aquisição de temperatura na faixa de x °C até xx °C em três pontos distintos;
-+ Deve ser possível realizar a medição de corrente até x A;
++ Deve ser possível realizar a aquisição de temperatura de até 70°C em três pontos distintos;
++ Deve ser possível realizar a medição de corrente até 200 A;
 + O sistema deve realizar a leitura contínua dos sensores de temperatura;
 + O sistema deve aplicar condicionamento de sinal adequado para leitura do sensores;
 
@@ -69,9 +69,9 @@ O sistema contempla:
 
 + Deve-se usar o sensor de temperatura PT100.
 + Deve-se usar o sensor de corrente de efeito hall xxxx.
-+ A versão do protocolo CAN deve ser a versão atual do barco (xxxx).
++ A versão do protocolo CAN deve ser a versão atual do barco (2.0B).
 + O firmware deve ser escrito na linguagem de programação C.
-+ O microcontrolador usado deve ser o xxxx.
++ O microcontrolador usado deve ser o STM32F401.
 
 Tecnologias do Projeto
 ======================
@@ -80,7 +80,15 @@ Tecnologias do Projeto
 
 Para as aquisições de temperatura serão utilizados o sensor **PT100**, em conjunto com um módulo contendo o conversor analógico-digital **MAX31865**, específico para essa aplicação. Esse módulo dispensa a necessidade de pré-amplificação e filtragem do sinal, simplificando o processo de medição.
 
-- Imagem do módulo e sensor?
+.. image:: images/ADCmodule.png
+   :height: 1600px
+   :width: 900 px
+   :scale: 30 %
+
+.. image:: images/PT100andADC.png
+   :height: 1600px
+   :width: 900 px
+   :scale: 30 %
 
 **Medição de Corrente**
 
@@ -89,11 +97,11 @@ Além disso, será necessário implementar um filtro (Que tipo de filtro??) comp
 
 **Conversão de Sinais**
 
-O sistema deve converter todos os sinais analógicos para formato digital, utilizando os conversores A/D do microcontrolador **MIC** para a medição de corrente e o **MAX31865** para a aquisição de temperatura. A resolução da conversão deve ser suficiente para garantir a precisão adequada das medições. Na configuração atual do módulo, obtém-se -- °C/LSB para a temperatura e, para a corrente, considera-se que a corrente máxima de ---- A corresponde ao limite da escala de xx bits e, portanto, a resolução é de -- A/LSB.
+O sistema deve converter todos os sinais analógicos para formato digital, utilizando os conversores A/D do microcontrolador **MIC** para a medição de corrente e o **MAX31865** para a aquisição de temperatura. A resolução da conversão deve ser suficiente para garantir a precisão adequada das medições. Na configuração atual do módulo, obtém-se uma resolução de 0.03125 °C para a temperatura e, para a corrente, considera-se que a corrente máxima de 200 A corresponde ao limite da escala de 12 bits e, portanto, a resolução é de 48,828 mA.
 
 **Comunicação CAN**
 
-O sistema deve transmitir os dados referentes as grandezas medidas via rede CAN na versão atual do barco (xxxx).
+O sistema deve transmitir os dados referentes as grandezas medidas via rede CAN na versão atual do barco (2.0B).
 
 Desenho Representativo do Barco
 ===============================
@@ -103,6 +111,13 @@ Fluxograma do Funcionamento do Sistema
 
 Limitações Físicas da(s) Placa(s)
 =================================
+
+A placa de circuito impresso a ser desenvolvida deve se enquadrar no suporte reservado a placas do mesmo tipo. Suas dimensões máximas devem ser de 15 cm de comprimento por 6 cm de largura.
+
+.. image:: images/loadCdivPCB_placeOp.png
+   :height: 1600px
+   :width: 1200 px
+   :scale: 30 %
 
 Inventário de Componentes necessários
 =====================================
@@ -115,8 +130,8 @@ Considerando que a etapa 1 aborda uma visão macroscópica do projeto, é possí
 + Resistores variados;
 + Capacitores variados;
 + 1 Amplificador operacional *rail-to-rail*;
-+ 1 kit de desenvolvimento baseado no microcontrolador MIC;
-+ 1 regulador linear rrrr;
++ 1 kit de desenvolvimento baseado no microcontrolador STM32F401;
++ 1 regulador linear (Vin >= 18 V, Vout = 3V3);
 + 2 unidades de modulo de comunicação CAN.
 
 Referências (links/datasheets/livros)
