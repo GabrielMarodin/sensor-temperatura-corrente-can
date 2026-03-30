@@ -104,9 +104,14 @@ Além disso, será necessário implementar um filtro passa baixa compatível com
 
 O sistema deve converter todos os sinais analógicos para formato digital, utilizando os conversores A/D do microcontrolador **STM32F401** para a medição de corrente e o **MAX31865** para a aquisição de temperatura. A resolução da conversão deve ser suficiente para garantir a precisão adequada das medições. Na configuração atual do módulo, obtém-se uma resolução de 0.03125 °C para a temperatura e, para a corrente, considera-se que a corrente máxima de 200 A corresponde ao limite da escala de 12 bits e, portanto, a resolução é de 48,828 mA.
 
+.. image:: images/blackpill.png
+   :height: 450px
+   :width: 450 px
+   :scale: 50 %
+
 **Comunicação CAN**
 
-O sistema deve transmitir os dados referentes as grandezas medidas via rede CAN na versão atual do barco (2.0B). A frequência de transmissão será limitada pela disponibilidade da rede CAN. Quando as medidas forem solicidadas, as últimas medidas imediatas de corrente e tensão serão enviadas, atentando-se ao limite de 8 bytes do campo de dados.
+O sistema deve transmitir os dados referentes as grandezas medidas via rede CAN na versão atual do barco (2.0B). A frequência de transmissão será limitada pela disponibilidade da rede CAN. Quando as medidas forem solicidadas, as últimas medidas imediatas de corrente e temperatura serão enviadas, atentando-se ao limite de 8 bytes do campo de dados.
 
 Desenho Representativo do Barco
 ===============================
