@@ -12,8 +12,6 @@ Requisitos
 
 Este projeto foi implementado com os seguintes módulos/softwares/hardwares...
 
-- `XIAO nRF52840 <https://wiki.seeedstudio.com/XIAO_BLE/>`_
-
 
 Visão geral
 ***********
@@ -22,10 +20,10 @@ Esse projeto faz parta do barco solar e ...
 
 O desenvolvimento foi divido em quatro etapas:
 
-- Etapa 1 (data da entrega): (breve resumo da etapa)
-- Etapa 2 (data da entrega): (breve resumo da etapa)
-- Etapa 3 (data da entrega): (breve resumo da etapa)
-- Etapa 4 (data da entrega): (breve resumo da etapa)
+- Etapa 1 (02/04/2026): Pesquisa, planejamento e outline do projeto.
+- Etapa 2 (30/04/2026): Teste dos módulos e desenvolvimento de protótipo.
+- Etapa 3 (28/05/2026): Desenvolvimento do produto.
+- Etapa 4 (09/07/2026): Implementação e análise de desempenho.
 
 Configuração
 *************
