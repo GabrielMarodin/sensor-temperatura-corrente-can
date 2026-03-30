@@ -118,8 +118,11 @@ Desenho Representativo do Barco
 
 Fluxograma do Funcionamento do Sistema
 ======================================
-
-Limitações Físicas da(s) Placa(s)
+.. image:: images/lanes_flowchart.png
+   :height: 1600px
+   :width: 1200 px
+   :scale: 30 %
+Flowchart em lanes do sistema.
 =================================
 
 A placa de circuito impresso a ser desenvolvida deve se enquadrar no suporte reservado a placas do mesmo tipo. Suas dimensões máximas devem ser de 15 cm de comprimento por 6 cm de largura.
