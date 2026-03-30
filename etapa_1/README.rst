@@ -118,9 +118,9 @@ Desenho Representativo do Barco
 
 Fluxograma do Funcionamento do Sistema
 ======================================
-.. image:: images/lanes_flowchart.png
+.. image:: images/flowchart_lanes.jpg
    :height: 421px
-   :width:  721px
+   :width:  781px
    :scale: 100 %
 Flowchart em lanes do sistema.
 =================================
