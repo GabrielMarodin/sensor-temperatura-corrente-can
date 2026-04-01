@@ -123,7 +123,6 @@ Fluxograma do Funcionamento do Sistema
    :height: 421px
    :width:  781px
    :scale: 100 %
-Flowchart em lanes do sistema.
 =================================
 
 A placa de circuito impresso a ser desenvolvida deve se enquadrar no suporte reservado a placas do mesmo tipo. Suas dimensões máximas devem ser de 15 cm de comprimento por 6 cm de largura.
