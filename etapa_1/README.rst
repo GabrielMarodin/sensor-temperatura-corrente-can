@@ -116,9 +116,9 @@ O sistema deve transmitir os dados referentes as grandezas medidas via rede CAN 
 Desenho Representativo do Barco
 ===============================
 .. image:: images/Diagrama_do_Barco.png
-   :height: 450px
-   :width: 450 px
-   :scale: 50 %
+   :height: 421px
+   :width:  781px
+   :scale: 100 %
 
 Fluxograma do Funcionamento do Sistema
 ======================================
