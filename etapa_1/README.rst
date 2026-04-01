@@ -98,20 +98,20 @@ Além disso, será necessário implementar um filtro passa baixa compatível com
 .. image:: images/LEM-LA205-S.png
    :height: 450px
    :width: 450 px
-   :scale: 50 %
+   :scale: 70 %
 
 **Conversão de Sinais**
 
 O sistema deve converter todos os sinais analógicos para formato digital, utilizando os conversores A/D do microcontrolador **STM32F401** para a medição de corrente e o **MAX31865** para a aquisição de temperatura. A resolução da conversão deve ser suficiente para garantir a precisão adequada das medições. Na configuração atual do módulo, obtém-se uma resolução de 0.03125 °C para a temperatura e, para a corrente, considera-se que a corrente máxima de 200 A corresponde ao limite da escala de 12 bits e, portanto, a resolução é de 48,828 mA.
 
 .. image:: images/blackpill.png
-   :height: 450px
-   :width: 450 px
-   :scale: 50 %
+   :height: 1600px
+   :width: 1200 px
+   :scale: 30 %
 
 **Comunicação CAN**
 
-O sistema deve transmitir os dados referentes as grandezas medidas via rede CAN na versão atual do barco (2.0B). A frequência de transmissão será limitada pela disponibilidade da rede CAN. Quando as medidas forem solicidadas, as últimas medidas imediatas de corrente e temperatura serão enviadas, atentando-se ao limite de 8 bytes do campo de dados.
+O sistema deve transmitir os dados referentes as grandezas medidas via rede CAN na versão atual do barco (2.0B). A frequência de transmissão será limitada pela disponibilidade da rede CAN. Quando as medidas forem solicidadas, as últimas medidas imediatas de corrente (pico e média) e temperatura serão enviadas, atentando-se ao limite de 8 bytes do campo de dados.
 
 Desenho Representativo do Barco
 ===============================
@@ -123,6 +123,8 @@ Fluxograma do Funcionamento do Sistema
    :height: 421px
    :width:  781px
    :scale: 100 %
+
+Limitações Físicas da PCB
 =================================
 
 A placa de circuito impresso a ser desenvolvida deve se enquadrar no suporte reservado a placas do mesmo tipo. Suas dimensões máximas devem ser de 15 cm de comprimento por 6 cm de largura.
@@ -142,6 +144,7 @@ Considerando que a etapa 1 aborda uma visão macroscópica do projeto, é possí
 + 1 unidade do sensor de efeito *Hall* **LEM LA 205-S**;
 + Resistores variados;
 + Capacitores variados;
++ Diodo para retificação do sinal de corrente;
 + 1 Amplificador operacional *rail-to-rail*;
 + 1 kit de desenvolvimento baseado no microcontrolador STM32F401;
 + 1 regulador linear (Vin >= 18 V, Vout = 3V3);
