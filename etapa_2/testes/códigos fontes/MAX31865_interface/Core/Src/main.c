@@ -87,6 +87,8 @@ int main(void)
 	float ratio;                            // Variable for calculation ratios
 	char MSG[30];                           // Buffer for status messages
 	char buffer[50];                        // General purpose buffer
+
+  MAX31865_HandleTypeDef device1 = {CS_GPIO_Port, CS_Pin};
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -113,7 +115,7 @@ int main(void)
   MX_TIM2_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  begin(MAX31865_3WIRE);
+  begin(&device1, MAX31865_3WIRE);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -123,7 +125,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  rtd = readRTD();
+	  rtd = readRTD(&device1);
 	  ratio = rtd;
 	  ratio /= 32768;  // Convert raw 15-bit value to ratio (0-1)
 
@@ -144,14 +146,14 @@ int main(void)
 
 	  // Print temperature with decorative borders
 	  //sprintf(MSG, "Temperature = %.2f°C", temperature(RNOMINAL, PREF));
-	  sprintf(MSG, "Temperature = %.2f\xB0""C", temperature(RNOMINAL, PREF));
+	  sprintf(MSG, "Temperature = %.2f\xB0""C", temperature(&device1, RNOMINAL, PREF));
 	  HAL_UART_Transmit(&huart1, (uint8_t*)"**********", 10, 50);
 	  HAL_UART_Transmit(&huart1, (uint8_t*)MSG, strlen(MSG), 100);
 	  HAL_UART_Transmit(&huart1, (uint8_t*)"**********", 10, 50);
 	  HAL_UART_Transmit(&huart1, (uint8_t*)"\r\n\r\n", 4, 10);
 
 	  // Check for faults
-	  fault = readFault(fault_cycle);
+	  fault = readFault(&device1, fault_cycle);
 
 	  if (fault) {
 	      sprintf(buffer, "Fault 0x%02X\r\n", fault);  // Fixed format specifier
@@ -184,7 +186,7 @@ int main(void)
 	          HAL_UART_Transmit(&huart1, (uint8_t*)buffer, strlen(buffer), HAL_MAX_DELAY);
 	      }
 
-	      clearFault();
+	      clearFault(&device1);
 	  }
       HAL_Delay(1000);  // Fixed delay function and reasonable delay time
   }

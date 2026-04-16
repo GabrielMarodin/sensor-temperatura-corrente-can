@@ -42,7 +42,6 @@
 #define RTD_B -5.775e-7
 
 #define SPI_DELAY 0xFF
-extern bool initialized;
 
 // Number of wires configuration for RTD sensor
 typedef enum max31865_numwires {
@@ -59,25 +58,33 @@ typedef enum {
     MAX31865_FAULT_MANUAL_FINISH,
 }max31865_fault_cycle_t;
 
-bool begin(max31865_numwires_t wires);
-uint8_t readFault(max31865_fault_cycle_t fault_cycle);
+typedef struct {
+    GPIO_TypeDef *cs_port;
+    uint16_t cs_pin;
+} MAX31865_HandleTypeDef;
 
-void clearFault(void);
-uint16_t readRTD();
+bool begin(MAX31865_HandleTypeDef *dev, max31865_numwires_t wires);
 
-void setThresholds(uint16_t lower, uint16_t upper);
-uint16_t getLowerThreshold(void);
-uint16_t getUpperThreshold(void);
+uint8_t readFault(MAX31865_HandleTypeDef *dev, max31865_fault_cycle_t fault_cycle);
+void clearFault(MAX31865_HandleTypeDef *dev);
 
-void setWires(max31865_numwires_t wires);
-void autoConvert(bool b);
-void enable50HzFilter(bool b);
-void enableBias(bool b);
-float temperature(float RTDnominal, float refResistor);
+uint16_t readRTD(MAX31865_HandleTypeDef *dev);
+
+void setThresholds(MAX31865_HandleTypeDef *dev, uint16_t lower, uint16_t upper);
+uint16_t getLowerThreshold(MAX31865_HandleTypeDef *dev);
+uint16_t getUpperThreshold(MAX31865_HandleTypeDef *dev);
+
+void setWires(MAX31865_HandleTypeDef *dev, max31865_numwires_t wires);
+void autoConvert(MAX31865_HandleTypeDef *dev, bool b);
+void enable50HzFilter(MAX31865_HandleTypeDef *dev, bool b);
+void enableBias(MAX31865_HandleTypeDef *dev, bool b);
+
+float temperature(MAX31865_HandleTypeDef *dev, float RTDnominal, float refResistor);
 float calculateTemperature(uint16_t RTDraw, float RTDnominal, float refResistor);
-void writeRegister8(uint8_t addr, uint8_t reg);
-void readRegisterN(uint8_t addr, uint8_t buffer[], uint8_t n);
-uint8_t readRegister8(uint8_t addr);
-uint16_t readRegister16(uint8_t addr);
+
+void writeRegister8(MAX31865_HandleTypeDef *dev, uint8_t addr, uint8_t reg);
+
+uint8_t readRegister8(MAX31865_HandleTypeDef *dev, uint8_t addr);
+uint16_t readRegister16(MAX31865_HandleTypeDef *dev, uint8_t addr);
 
 #endif /* INC_MAX31865_H_ */
