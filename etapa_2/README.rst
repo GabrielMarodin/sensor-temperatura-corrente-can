@@ -78,7 +78,7 @@ As mesagens serão divididas da seguinte forma:
 
 	**Id zzz**
 
-	+ Frequencia de envio = 20 Hz
+	+ Frequencia de envio = 1 - 5 Hz
 	+ Total bytes = 4
 	+ bits[31:30] -> informa status da aquisição ou erro nos sensores
 	+ bits[29:20] -> Temperatura das baterias em °C
@@ -87,7 +87,7 @@ As mesagens serão divididas da seguinte forma:
 	
 	**Id xxx**
 
-	+ Frequencia de envio = 100 Hz
+	+ Frequencia de envio = 100 - 130 Hz
 	+ Total bytes = 4
 	+ bits[31:25] -> informa status da aquisição ou erro nos sensores
 	+ bit[24]     -> informa sentido predominante da corrente (1 para positivo)
