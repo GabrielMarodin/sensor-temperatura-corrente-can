@@ -33,8 +33,9 @@ Descrição dos testes/validações realizadas.
 Arquitetura do Protocolo CAN
 ============================
 
-O microcontolador STM32f103 (blackpill) não possui o perírico CAN nativo, logo, se faz necessário uma interface controladora que torna possível a implementação do protocolo sem gerar custos adicionais a CPU do microcontrolador.
-A interface do microcontrolador com a rede CAN sérá feita por intermédio de dois circuitos integrados:
+O microcontolador STM32f401 (blackpill) não possui o perírico CAN nativo, logo, se faz necessário uma interface controladora que torna possível a implementação do protocolo sem gerar custos adicionais a CPU do microcontrolador.
+A interface do microcontrolador com a rede CAN será feita por intermédio de dois circuitos integrados:
+
 + MCP2515 -> Controlador CAN
 + TJA1050 -> Transceptor CAN
 
@@ -51,14 +52,16 @@ Seu dataframe pode ser observado na imagem abaixo:
 .. image:: images/CAN_dataframe.png
    :height: 234 px
    :width: 1190 px
-   :scale: 55 %
+   :scale: 45 %
    
-Para o projeto em questão é necessário que o microcontrolador somente envie mensagens em intervalos definidos.
+Para o projeto em questão é necessário que o microcontrolador somente envie mensagens.
+
 Para implementar a arquitura utilizando o controlador CAN MCP2515 é necessário, através do barramento SPI:
 
 + Configurar o *baud rate* (registradores CNF[1:3])
 + Habilitar feedback de envio (registrador CANINTE) -> permite debug
 + Escolher modo de operação (Normal, sleep, loopback...) (registrador CANCTRL)
+
 
 + Configurar o *identifier* de 11 bits (registradores TXBnSIDH e TXBnSIDL)
 + Escolher o tamanho do pacote de dados (0 a 8 bytes) (registrador TXBnDLC)
@@ -74,6 +77,7 @@ O nó da rede CAN em questão possuirá 2 *identifiers*:
 As mesagens serão divididas da seguinte forma:
 
 	**Id zzz**
+
 	+ Frequencia de envio = 20 Hz
 	+ Total bytes = 4
 	+ bits[31:30] -> informa status da aquisição ou erro nos sensores
@@ -82,6 +86,7 @@ As mesagens serão divididas da seguinte forma:
 	+ bits[9:0]   -> Temperatura do motor em °C
 	
 	**Id xxx**
+
 	+ Frequencia de envio = 100 Hz
 	+ Total bytes = 4
 	+ bits[31:25] -> informa status da aquisição ou erro nos sensores
