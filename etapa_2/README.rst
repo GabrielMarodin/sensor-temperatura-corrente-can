@@ -23,12 +23,26 @@ Testes
 
 **Aquisição de Temperatura com o MAX 31865**
 
-Descrição dos testes/validações realizadas.
+Foi conectado o sensor MAX 31865 por SPI ao blackpill e requisitada sua leitura. Testado com temperatura ambiente de 22°C e temperadura levemente elevada por fricção
+
+> Adicionar imagem do teste
+> Adicionar screenshots do debugger
 
 **Medição de Corrente com LA 205-S**
 
-Descrição dos testes/validações realizadas.
+Foi configurado o ADC do blackpill para uma frequência de amostragem de 120 kHz com 10 bits de precisão, foi então utilizada uma fonte linear para emular a tensão do shunt
 
+> Adicionar imagem do teste
+> Adicionar screenchots do debugger
+
+Foi então calculada a corrente esperada no pino com offset ($I_{real}=\frac{V_{ADC}-V_{offset}}{R_{shunt}}$), como $V_{offset}=\frac{V_{dd}/2}$ e $R_{shunt}=16$, sendo calculada pela seguinte fórmula dentro do callback do ADC:
+
+```
+uint32_t milli_volt = (ADC_reading*3300)>>10;
+Current_Measured = (milli_volt-(3300>>1))>>4;
+```
+
+Sendo a corrente medida em $mA$
 
 Arquitetura do Protocolo CAN
 ============================
