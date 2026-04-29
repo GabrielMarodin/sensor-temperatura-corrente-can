@@ -31,12 +31,12 @@ Foi conectado o sensor MAX 31865 por SPI ao blackpill e requisitada sua leitura.
    :scale: 30 %
 
 .. image:: images/Pt100/temp1.png
-   :height: 1600px
-   :width: 900 px
+   :height: 416px
+   :width: 403px
    :scale: 30 %
 .. image:: images/Pt100/temp2.png
-   :height: 1600px
-   :width: 900 px
+   :height: 378px
+   :width: 177px
    :scale: 30 %
 
 **Medição de Corrente com LA 205-S**
