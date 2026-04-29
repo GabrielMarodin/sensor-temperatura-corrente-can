@@ -83,31 +83,33 @@ Para implementar a arquitura utilizando o controlador CAN MCP2515 é necessário
 + Escolher o buffer que será transmitido (registrador TXRTSCTRL)
 + Requisitar envio do buffer (registrador TXBnCTRL)
 
+Os demais campos do dataframe do protocolo tais como CRC, ACK e EOF serão calculados e gerados pelo controlador CAN.
+
 O nó da rede CAN em questão possuirá 2 *identifiers*:
 
 + Id zzz contendo as aquisições de temperatura.
 + Id xxx contendo as medições de corrente.
 
-As mesagens serão divididas da seguinte forma:
+As mensagens serão divididas da seguinte forma:
 
 	**Id zzz**
 
-	+ Frequencia de envio = 1 - 5 Hz
-	+ Total bytes = 4
-	+ bits[31:30] -> informa status da aquisição ou erro nos sensores
-	+ bits[29:20] -> Temperatura das baterias em °C
-	+ bits[19:10] -> Temperatura dos controladores de carga em °C
-	+ bits[9:0]   -> Temperatura do motor em °C
+	+ Frequência de envio = 1 - 5 Hz;
+	+ Total bytes = 4;
+	+ bits[31:30] -> informa status da aquisição ou erro nos sensores (00b = sem falhas; 01b = falha no sensor do motor; 10b = falha no sensor dos controladores; 11b = falha no sensor das baterias);
+	+ bits[29:20] -> Temperatura das baterias em °C (uint10_t);
+	+ bits[19:10] -> Temperatura dos controladores de carga em °C (uint10_t);
+	+ bits[9:0]   -> Temperatura do motor em °C (uint10_t).
 	
 	**Id xxx**
 
-	+ Frequencia de envio = 100 - 130 Hz
-	+ Total bytes = 4
-	+ bits[31:25] -> informa status da aquisição ou erro nos sensores
-	+ bit[24]     -> informa sentido predominante da corrente (1 para positivo)
-	+ bits[23:12] -> Corrente RMS em mA
-	+ bit[11]     -> Sentido da corrente de pico (1 para positivo)
-	+ bits[10:00] -> Corrente de pico em mA
+	+ Frequência de envio = 100 - 130 Hz;
+	+ Total bytes = 4;
+	+ bits[31:25] -> informa status da aquisição ou erro nos sensores (0000000b = sem falhas; 0000001b = falha de aquisição de corrente de pico; 0000010b = falha de aquisição de corrente RMS);
+	+ bit[24]     -> informa sentido predominante da corrente (1 para positivo);
+	+ bits[23:12] -> Corrente RMS em mA (uint12_t);
+	+ bit[11]     -> Sentido da corrente de pico (1 para positivo);
+	+ bits[10:00] -> Corrente de pico em mA (uint11_t).
 
 Referências (links/datasheets/livros)
 *************************************
