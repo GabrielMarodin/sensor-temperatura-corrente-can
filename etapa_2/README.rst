@@ -43,17 +43,29 @@ Foi conectado o sensor MAX 31865 por SPI ao blackpill e requisitada sua leitura.
 
 Foi configurado o ADC do blackpill para uma frequência de amostragem de 120 kHz com 10 bits de precisão, foi então utilizada uma fonte linear para emular a tensão do shunt
 
-> Adicionar imagem do teste
-> Adicionar screenchots do debugger
+Foi então calculada a corrente esperada no pino com offset ($I_{real}=(V_{ADC}-V_{offset})/R_{shunta}$), como $V_{offset}=V_{dd}/2$ e $R_{shunt}=16$, sendo calculada pela seguinte fórmula dentro do callback do ADC:
 
-Foi então calculada a corrente esperada no pino com offset ($I_{real}=\frac{V_{ADC}-V_{offset}}{R_{shunt}}$), como $V_{offset}=\frac{V_{dd}/2}$ e $R_{shunt}=16$, sendo calculada pela seguinte fórmula dentro do callback do ADC:
+.. code:block:: C
+	uint32_t milli_volt = (ADC_reading*3300)>>10;
+	Current_Measured = (milli_volt-(3300>>1))>>4;
 
-```
-uint32_t milli_volt = (ADC_reading*3300)>>10;
-Current_Measured = (milli_volt-(3300>>1))>>4;
-```
+Sendo `Current_Measured` a corrente do secundário em $mA$
 
-Sendo a corrente medida em $mA$
+Valor de corrente medido:
+
+.. image:: images/Captura_ADC-PI3.png
+   :scale: 30 %
+
+O valor da variável milli_volt está coerente com o esperado do valor da fonte, sendo que $6mA$ no resistor de shunt resultaria em uma tensão de $6\cdot 16=96mV$ - após amplificação, o pino do ADC mede $96+3300/2=1746mV$, conforme esperado
+
+Para os testes com o sensor LEM LA205S com correntes positivas e negativas, foi utilizada a seguinte topologia:
+
+..image :: images/current_signal_conditioning_eschem.png
+	:scale: 30%
+
+Temos que a saída do circuito é igual a $V_{ADC}=V_{Shunt}+V_{off}=I_{Shunt}R_{Shunt}+V_{off}$
+	
+Tensão ADC medida de $1981mV (~21mA)$ e $673mV(~-61mA)$ respectivamente
 
 Arquitetura do Protocolo CAN
 ============================
@@ -75,7 +87,7 @@ O protocolo CAN a ser impletamentado pertence a versão 2.0A, conhecido também 
 Seu dataframe pode ser observado na imagem abaixo:
 
 .. image:: images/CAN_dataframe.png
-   :height: 234 px
+   :height: 234 px.
    :width: 1190 px
    :scale: 45 %
    
