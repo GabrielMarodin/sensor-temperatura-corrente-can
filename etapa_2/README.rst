@@ -25,8 +25,19 @@ Testes
 
 Foi conectado o sensor MAX 31865 por SPI ao blackpill e requisitada sua leitura. Testado com temperatura ambiente de 22°C e temperadura levemente elevada por fricção
 
-> Adicionar imagem do teste
-> Adicionar screenshots do debugger
+.. image:: images/Pt100/montagem.jpeg
+   :height: 1600px
+   :width: 900 px
+   :scale: 30 %
+
+.. image:: images/Pt100/temp1.png
+   :height: 1600px
+   :width: 900 px
+   :scale: 30 %
+.. image:: images/Pt100/temp2.png
+   :height: 1600px
+   :width: 900 px
+   :scale: 30 %
 
 **Medição de Corrente com LA 205-S**
 
