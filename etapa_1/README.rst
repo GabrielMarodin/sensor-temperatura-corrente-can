@@ -111,7 +111,7 @@ O sistema deve converter todos os sinais analógicos para formato digital, utili
 
 **Comunicação CAN**
 
-O sistema deve transmitir os dados referentes as grandezas medidas via rede CAN na versão atual do barco (2.0B). A frequência de transmissão será limitada pela disponibilidade da rede CAN. Quando as medidas forem solicidadas, as últimas medidas imediatas de corrente (pico e média) e temperatura serão enviadas, atentando-se ao limite de 8 bytes do campo de dados.
+O sistema deve transmitir os dados referentes as grandezas medidas via rede CAN na versão atual do barco (2.0A). A frequência de transmissão será limitada pela disponibilidade da rede CAN. Quando as medidas forem solicidadas, as últimas medidas imediatas de corrente (pico e média) e temperatura serão enviadas, atentando-se ao limite de 8 bytes do campo de dados.
 
 Desenho Representativo do Barco
 ===============================
