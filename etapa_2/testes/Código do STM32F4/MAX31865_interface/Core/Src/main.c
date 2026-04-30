@@ -371,8 +371,8 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
-	uint32_t milli_volts = Current_Readout[0]*3300<<10; // ADC de 10 bits
-	Current_Measured = (milli_volts-(3300<<1))<<4;
+	uint32_t milli_volts = (Current_Readout[0]*3300)>>10; // ADC de 10 bits
+	Current_Measured = 125*(milli_volts-(3300>>1));
 	__NOP();
 }
 /* USER CODE END 4 */
