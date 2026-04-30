@@ -86,7 +86,7 @@ Como $400/10^{10}=390mA$, temos uma pequena perda na resolução final em relaç
 Arquitetura do Protocolo CAN
 ============================
 
-O microcontolador STM32f401 (blackpill) não possui o perírico CAN nativo, logo, se faz necessário uma interface controladora que torna possível a implementação do protocolo sem gerar custos adicionais a CPU do microcontrolador.
+O microcontolador STM32f401 (blackpill) não possui o periférico CAN nativo, logo, se faz necessário uma interface controladora que torna possível a implementação do protocolo sem gerar custos adicionais a CPU do microcontrolador.
 A interface do microcontrolador com a rede CAN será feita por intermédio de dois circuitos integrados:
 
 + MCP2515 -> Controlador CAN
@@ -115,7 +115,6 @@ Para implementar a arquitura utilizando o controlador CAN MCP2515 é necessário
 + Habilitar feedback de envio (registrador CANINTE) -> permite debug
 + Escolher modo de operação (Normal, sleep, loopback...) (registrador CANCTRL)
 
-
 + Configurar o *identifier* de 11 bits (registradores TXBnSIDH e TXBnSIDL)
 + Escolher o tamanho do pacote de dados (0 a 8 bytes) (registrador TXBnDLC)
 + Carregar dados (registradores TXBnD[0:7])
@@ -133,33 +132,34 @@ As mensagens serão divididas da seguinte forma:
 
 	**Id zzz**
 
-	+ Frequência de envio = 1 - 5 Hz;
-	+ Total bytes = 4;
-	+ bits[31:30] -> informa status da aquisição ou erro nos sensores (00b = sem falhas; 01b = falha no sensor do motor; 10b = falha no sensor dos controladores; 11b = falha no sensor das baterias);
-	+ bits[29:20] -> Temperatura das baterias em °C (uint10_t);
-	+ bits[19:10] -> Temperatura dos controladores de carga em °C (uint10_t);
-	+ bits[9:0]   -> Temperatura do motor em °C (uint10_t).
++ Frequência de envio = 1 - 5 Hz;
++ Total bytes = 4;
++ bits[31:30] -> informa status da aquisição ou erro nos sensores (00b = sem falhas; 01b = falha no sensor do motor; 10b = falha no sensor dos controladores; 11b = falha no sensor das baterias);
++ bits[29:20] -> Temperatura das baterias em °C (uint10_t);
++ bits[19:10] -> Temperatura dos controladores de carga em °C (uint10_t);
++ bits[9:0]   -> Temperatura do motor em °C (uint10_t).
 
-	Para os valores de temperatura deve-se considerar uma casa decimal implicita, por exemplo:
+Para os valores de temperatura deve-se considerar uma casa decimal implicita, por exemplo:
 
-	uint10_t t_batt = 822;
-	corresponde a 82,2°C
+uint10_t t_batt = 822;
+
+corresponde a 82,2°C
 	
 	**Id xxx**
 
-	+ Frequência de envio = 100 - 130 Hz;
-	+ Total bytes = 4;
-	+ bits[31:25] -> informa status da aquisição ou erro nos sensores (0000000b = sem falhas; 0000001b = falha de aquisição de corrente de pico; 0000010b = falha de aquisição de corrente RMS);
-	+ bit[24]     -> informa sentido predominante da corrente (1 para positivo);
-	+ bits[23:12] -> Corrente RMS em $mA$ (uint12_t);
-	+ bit[11]     -> Sentido da corrente de pico (1 para positivo);
-	+ bits[10:00] -> Corrente de pico em $mA$ (uint11_t).
++ Frequência de envio = 100 - 130 Hz;
++ Total bytes = 4;
++ bits[31:25] -> informa status da aquisição ou erro nos sensores (0000000b = sem falhas; 0000001b = falha de aquisição de corrente de pico; 0000010b = falha de aquisição de corrente RMS);
++ bit[24]     -> informa sentido predominante da corrente (1 para positivo);
++ bits[23:12] -> Corrente RMS em $mA$ (uint12_t);
++ bit[11]     -> Sentido da corrente de pico (1 para positivo);
++ bits[10:00] -> Corrente de pico em $mA$ (uint11_t).
 
-	Para o valores de corrente deve-se considerar o valor multiplicado por 100 em $mA$, por exemplo:
+Para o valores de corrente deve-se considerar o valor multiplicado por 100 em $mA$, por exemplo:
 
-	uint12_t rms_I = 1234;
+uint12_t rms_I = 1234;
 
-	corresponde a 123.400 mA.
+corresponde a 123.400 mA.
 
 Referências (links/datasheets/livros)
 *************************************
