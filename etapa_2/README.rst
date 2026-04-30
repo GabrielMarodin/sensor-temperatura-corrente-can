@@ -50,7 +50,8 @@ Foi configurado o ADC do blackpill para uma frequência de amostragem de 120 kHz
 
 Foi então calculada a corrente esperada no pino com offset ($I_{real}=(V_{ADC}-V_{offset})/R_{shunta}$), como $V_{offset}=V_{dd}/2$ e $R_{shunt}=16$, sendo calculada pela seguinte fórmula dentro do callback do ADC:
 
-.. code:block:: C
+.. code-block:: C
+
 	uint32_t milli_volt = (ADC_reading*3300)>>10;
 	Current_Measured = (milli_volt-(3300>>1))>>4;
 
@@ -67,7 +68,8 @@ Testando o circuito amplificador com uma fonte linear, obtemos leituras no ADC d
 
 Para calcular a corrente do primário, precisamos multiplicar o resultado final por 2000, como há uma divisão por 16 no final do código, podemos apenas remover $>>4$ e o substituir por $*125$, resultando no seguinte código:
 
-.. code:block:: C
+.. code-block:: C
+
 	uint32_t milli_volt = (ADC_reading*3300)>>10;
 	Current_Measured = (milli_volt-(3300>>1))*125;
 
