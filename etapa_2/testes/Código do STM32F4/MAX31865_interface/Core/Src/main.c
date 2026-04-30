@@ -50,10 +50,12 @@ DMA_HandleTypeDef hdma_adc1;
 SPI_HandleTypeDef hspi1;
 
 TIM_HandleTypeDef htim2;
+TIM_HandleTypeDef htim3;
 
 /* USER CODE BEGIN PV */
 uint32_t Current_Readout[BUFF_LENGHT];
 int32_t Current_Measured;
+volatile uint32_t rtd_flag = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -63,6 +65,7 @@ static void MX_DMA_Init(void);
 static void MX_ADC1_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_TIM2_Init(void);
+static void MX_TIM3_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -80,12 +83,12 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-	uint16_t rtd = 0;                       // Variable to store raw RTD value
+	uint16_t rtd; // Variable to store raw RTD value
 	uint8_t fault;                          // Variable to store fault status
 	max31865_fault_cycle_t fault_cycle = MAX31865_FAULT_AUTO;  // Default to auto fault detection
-	float ratio;                            // Variable for calculation ratios
+	float ratio, resistance;                            // Variable for calculation ratios
+	MAX31865_HandleTypeDef device1 = {CS_GPIO_Port, CS_Pin};
 
-  MAX31865_HandleTypeDef device1 = {CS_GPIO_Port, CS_Pin};
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -110,9 +113,11 @@ int main(void)
   MX_ADC1_Init();
   MX_SPI1_Init();
   MX_TIM2_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
   begin(&device1, MAX31865_3WIRE);
   HAL_TIM_Base_Start(&htim2);
+  HAL_TIM_Base_Start_IT(&htim3);
   HAL_ADC_Start_DMA(&hadc1, (uint32_t*)Current_Readout, BUFF_LENGHT);
   /* USER CODE END 2 */
 
@@ -123,18 +128,23 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  rtd = readRTD(&device1);
-	  ratio = rtd;
-	  ratio /= 32768;  // Convert raw 15-bit value to ratio (0-1)
+	  if (rtd_flag){
+		  rtd_flag = 0;
 
-	  // Check for faults
-	  fault = readFault(&device1, fault_cycle);
+		  rtd = readRTD(&device1);
+		  ratio = (float)rtd/32768.0f;// Convert raw 15-bit value to ratio (0-1)
+		  resistance = PREF*ratio;
 
-	  if (fault) {
+		  // Check for faults
+		  fault = readFault(&device1, fault_cycle);
 
-	      clearFault(&device1);
+		  if (fault) {
+
+		      clearFault(&device1);
+		  }
+	  }else{
+		  __WFI();
 	  }
-      HAL_Delay(500);  // Fixed delay function and reasonable delay time
   }
   /* USER CODE END 3 */
 }
@@ -323,6 +333,51 @@ static void MX_TIM2_Init(void)
 }
 
 /**
+  * @brief TIM3 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM3_Init(void)
+{
+
+  /* USER CODE BEGIN TIM3_Init 0 */
+
+  /* USER CODE END TIM3_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM3_Init 1 */
+
+  /* USER CODE END TIM3_Init 1 */
+  htim3.Instance = TIM3;
+  htim3.Init.Prescaler = 1343;
+  htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim3.Init.Period = 62499;
+  htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim3, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM3_Init 2 */
+
+  /* USER CODE END TIM3_Init 2 */
+
+}
+
+/**
   * Enable DMA controller clock
   */
 static void MX_DMA_Init(void)
@@ -372,8 +427,16 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 	uint32_t milli_volts = (Current_Readout[0]*3300)>>10; // ADC de 10 bits
-	Current_Measured = 125*(milli_volts-(3300>>1));
+	Current_Measured = ((int32_t)milli_volts-1650)>>4;
 	__NOP();
+}
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+    if (htim->Instance == TIM3)
+    {
+        //runs every 1 second
+    	rtd_flag = 1;
+    }
 }
 /* USER CODE END 4 */
 
