@@ -41,6 +41,13 @@ Foi conectado o sensor MAX 31865 por SPI ao blackpill e requisitada sua leitura.
 
 **Medição de Corrente com LA 205-S**
 
+Para os testes com o sensor LEM LA205S com correntes positivas e negativas, foi utilizada a seguinte topologia:
+
+.. image:: images/current_signal_conditioning_eschem.png
+	:scale: 30%
+
+Temos que a saída do circuito é igual a $V_{ADC}=V_{Shunt}+V_{off}=I_{Shunt}R_{Shunt}+V_{off}$, isolando para a corrente $I_{Shunt}$, temos que $I_{Shunt}=(V_{ADC}-V_{off})/R_{Shunt}$
+
 Foi configurado o ADC do blackpill para uma frequência de amostragem de 120 kHz com 10 bits de precisão, foi então utilizada uma fonte linear para emular a tensão do shunt
 
 Foi então calculada a corrente esperada no pino com offset ($I_{real}=(V_{ADC}-V_{offset})/R_{shunta}$), como $V_{offset}=V_{dd}/2$ e $R_{shunt}=16$, sendo calculada pela seguinte fórmula dentro do callback do ADC:
@@ -56,16 +63,25 @@ Valor de corrente medido:
 .. image:: images/Captura_ADC-PI3.png
    :scale: 30 %
 
-O valor da variável milli_volt está coerente com o esperado do valor da fonte, sendo que $6mA$ no resistor de shunt resultaria em uma tensão de $6\cdot 16=96mV$ - após amplificação, o pino do ADC mede $96+3300/2=1746mV$, conforme esperado
+O valor da variável milli_volt está coerente com o esperado do valor da fonte, sendo que $6mA$ no resistor de shunt resultaria em uma tensão de $6 * 16=96mV$ - após amplificação, o pino do ADC mede $96+3300/2=1746mV$, conforme esperado
 
-Para os testes com o sensor LEM LA205S com correntes positivas e negativas, foi utilizada a seguinte topologia:
+Testando o circuito amplificador com uma fonte linear, obtemos leituras no ADC de $1981mV (21mA)$ e $673mV(-61mA)$ respectivamente.
 
-..image :: images/current_signal_conditioning_eschem.png
-	:scale: 30%
+Para calcular a corrente do primário, precisamos multiplicar o resultado final por 2000, como há uma divisão por 16 no final do código, podemos apenas remover $>>4$ e o substituir por $*125$, resultando no seguinte código:
 
-Temos que a saída do circuito é igual a $V_{ADC}=V_{Shunt}+V_{off}=I_{Shunt}R_{Shunt}+V_{off}$
-	
-Tensão ADC medida de $1981mV (~21mA)$ e $673mV(~-61mA)$ respectivamente
+.. code:block:: C
+	uint32_t milli_volt = (ADC_reading*3300)>>10;
+	Current_Measured = (milli_volt-(3300>>1))*125;
+
+Podemos estimar a resolução da leitura final no lado do primário da seguinte maneira:
+
+$ADC=3300/10^{10}=3,22 mV$
+
+$I_{Sec}=ADC/R_{Shunt}=0,2014 mA$
+
+$I_{Pri}=I_{Sec}*2000=402,83 mA$
+
+Como $400/10^{10}=390mA$, temos uma pequena perda na resolução final em relação aos 10 bits utilizados do ADC, mas ainda dentro dos requisitos iniciais do projeto ($>1A$)
 
 Arquitetura do Protocolo CAN
 ============================
