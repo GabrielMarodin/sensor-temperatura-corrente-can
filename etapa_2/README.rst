@@ -168,10 +168,8 @@ Referências (links/datasheets/livros)
 
 - `Zênite Solar GitHub <https://github.com/ZeniteSolar>`_
 
-- `LA 205-S documentação <https://www.lem.com/sites/default/files/products_datasheets/la_205-s.pdf
->`_
+- `LA 205-S documentação <https://www.lem.com/sites/default/files/products_datasheets/la_205-s.pdf>`_
 
-- `MAX31865 documentação <https://www.analog.com/media/en/technical-documentation/data-sheets/max31865.pdf
->`_
+- `MAX31865 documentação <https://www.analog.com/media/en/technical-documentation/data-sheets/max31865.pdf>`_
 
 
