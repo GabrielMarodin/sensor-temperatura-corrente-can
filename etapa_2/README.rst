@@ -9,13 +9,11 @@ Etapa 2
 Visão geral
 ***********
 
-A etapa 2 abordará os testes dos sensores de temperatura e corrente em placas de desenvolvimento e a definição da arquitetura do protoloco CAN que será implementado no sistema embarcado referênte ao projeto em questão.
+A etapa 2 abordará os testes dos sensores de temperatura e corrente em placas de desenvolvimento e a definição da arquitetura do protoloco CAN que será implementado no sistema embarcado referente ao projeto em questão.
 
 
 Desenvolvimento
 ***************
-
-Apresentar o desenvolvimento da etapa contendo detalhes de implementação (se houver) de hardware e software. Adicionar pesqusisas realizadas bem como testes realizados.
 
 
 Testes
