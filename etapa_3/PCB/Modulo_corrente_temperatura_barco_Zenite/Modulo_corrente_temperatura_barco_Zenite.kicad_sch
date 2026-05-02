@@ -8591,7 +8591,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "470p"
+		(property "Value" "1nF"
 			(at 247.65 130.81 90)
 			(effects
 				(font
@@ -13044,7 +13044,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "4k7"
+		(property "Value" "10k"
 			(at 227.33 102.87 90)
 			(effects
 				(font
