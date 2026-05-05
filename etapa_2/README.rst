@@ -135,13 +135,13 @@ As mensagens serão divididas da seguinte forma:
 + Frequência de envio = 1 - 5 Hz;
 + Total bytes = 4;
 + bits[31:30] -> informa status da aquisição ou erro nos sensores (00b = sem falhas; 01b = falha no sensor do motor; 10b = falha no sensor dos controladores; 11b = falha no sensor das baterias);
-+ bits[29:20] -> Temperatura das baterias em °C (uint10_t);
-+ bits[19:10] -> Temperatura dos controladores de carga em °C (uint10_t);
-+ bits[9:0]   -> Temperatura do motor em °C (uint10_t).
++ bits[29:20] -> Temperatura das baterias em °C;
++ bits[19:10] -> Temperatura dos controladores de carga em °C;
++ bits[9:0]   -> Temperatura do motor em °C.
 
 Para os valores de temperatura deve-se considerar uma casa decimal implicita, por exemplo:
 
-uint10_t t_batt = 822;
+uint16_t t_batt = 822;
 
 corresponde a 82,2°C
 	
@@ -151,13 +151,13 @@ corresponde a 82,2°C
 + Total bytes = 4;
 + bits[31:25] -> informa status da aquisição ou erro nos sensores (0000000b = sem falhas; 0000001b = falha de aquisição de corrente de pico; 0000010b = falha de aquisição de corrente RMS);
 + bit[24]     -> informa sentido predominante da corrente (1 para positivo);
-+ bits[23:12] -> Corrente RMS em $mA$ (uint12_t);
++ bits[23:12] -> Corrente RMS em $mA$;
 + bit[11]     -> Sentido da corrente de pico (1 para positivo);
-+ bits[10:00] -> Corrente de pico em $mA$ (uint11_t).
++ bits[10:00] -> Corrente de pico em $mA$.
 
 Para o valores de corrente deve-se considerar o valor multiplicado por 100 em $mA$, por exemplo:
 
-uint12_t rms_I = 1234;
+uint16_t rms_I = 1234;
 
 corresponde a 123.400 mA.
 
