@@ -172,4 +172,5 @@ Referências (links/datasheets/livros)
 
 - `MAX31865 documentação <https://www.analog.com/media/en/technical-documentation/data-sheets/max31865.pdf>`_
 
+- `MAX31865 código fonte base para STM32 <https://github.com/marwen-maghrebi/Advanced-STM32-Simulations-/tree/main/27-STM32_Thermocouple_MAX31865>`_
 
