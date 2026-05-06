@@ -13,7 +13,8 @@ Requisitos
 Este projeto foi implementado com os seguintes módulos/softwares/hardwares:
  | Sensor de temperatura PT100 com 3 fios.    
  | Sensor de corrente de efeito Hall LEM LA 205-S.  
- | CAN 2.0B.  
+ | MCP2515 (Controlador CAN);
+ | TJA1050 (Transceptor CAN);  
  | Linguagem de programação C.  
  | STM32F401.  
 
