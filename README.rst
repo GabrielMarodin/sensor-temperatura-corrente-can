@@ -10,7 +10,12 @@ Monitoramento de temperatura e corrente via CAN do barco solar
 Requisitos
 **********
 
-Este projeto foi implementado com os seguintes módulos/softwares/hardwares...
+Este projeto foi implementado com os seguintes módulos/softwares/hardwares:
+ | Sensor de temperatura PT100 com 3 fios.    
+ | Sensor de corrente de efeito Hall LEM LA 205-S.  
+ | CAN 2.0B.  
+ | Linguagem de programação C.  
+ | STM32F401.  
 
 
 Visão geral
