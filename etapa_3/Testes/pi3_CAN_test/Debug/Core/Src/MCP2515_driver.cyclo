@@ -1,0 +1,5 @@
+../Core/Src/MCP2515_driver.c:9:13:MCP2515_Select	1
+../Core/Src/MCP2515_driver.c:13:13:MCP2515_Unselect	1
+../Core/Src/MCP2515_driver.c:17:6:MCP2515_Config	1
+../Core/Src/MCP2515_driver.c:59:9:MCP2515_Read_INT_reg	1
+../Core/Src/MCP2515_driver.c:64:6:MCP2515_TX	8

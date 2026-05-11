@@ -6637,7 +6637,7 @@
 			)
 		)
 	)
-	(global_label "SCK3"
+	(global_label "SCK2"
 		(shape input)
 		(at 151.638 176.53 180)
 		(fields_autoplaced yes)
@@ -6659,7 +6659,7 @@
 			)
 		)
 	)
-	(global_label "MISO3"
+	(global_label "MISO2"
 		(shape input)
 		(at 114.808 173.99 180)
 		(fields_autoplaced yes)
@@ -6769,7 +6769,7 @@
 			)
 		)
 	)
-	(global_label "MISO3"
+	(global_label "MISO2"
 		(shape input)
 		(at 151.638 173.99 180)
 		(fields_autoplaced yes)
@@ -7341,7 +7341,7 @@
 			)
 		)
 	)
-	(global_label "MOSI3"
+	(global_label "MOSI2"
 		(shape input)
 		(at 114.808 171.45 180)
 		(fields_autoplaced yes)
@@ -7451,7 +7451,7 @@
 			)
 		)
 	)
-	(global_label "MISO3"
+	(global_label "MISO2"
 		(shape input)
 		(at 80.518 173.99 180)
 		(fields_autoplaced yes)
@@ -7473,7 +7473,7 @@
 			)
 		)
 	)
-	(global_label "SCK3"
+	(global_label "SCK2"
 		(shape input)
 		(at 114.808 176.53 180)
 		(fields_autoplaced yes)
@@ -7583,7 +7583,7 @@
 			)
 		)
 	)
-	(global_label "MOSI3"
+	(global_label "MOSI2"
 		(shape input)
 		(at 151.638 171.45 180)
 		(fields_autoplaced yes)
@@ -7847,7 +7847,7 @@
 			)
 		)
 	)
-	(global_label "MOSI3"
+	(global_label "MOSI2"
 		(shape input)
 		(at 80.518 171.45 180)
 		(fields_autoplaced yes)
@@ -7869,7 +7869,7 @@
 			)
 		)
 	)
-	(global_label "SCK3"
+	(global_label "SCK2"
 		(shape input)
 		(at 80.518 176.53 180)
 		(fields_autoplaced yes)
