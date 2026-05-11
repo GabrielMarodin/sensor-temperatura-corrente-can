@@ -88,7 +88,7 @@ void MCP2515_TX(MCP2515_t *dev, uint16_t id, uint8_t dataLength, uint8_t *data_l
 		TXBnD0_addr   = MCP2515_TXB1D0;
 		TXBnCTRL_addr = MCP2515_TXB1CTRL;
 		break;
-	case 3:
+	case 2:
 		TXBnSIDH_addr = MCP2515_TXB2SIDH;
 		//TXBnSIDL_addr = MCP2515_TXB2SIDL;
 		TXBnDLC_addr  = MCP2515_TXB2DLC;
@@ -119,7 +119,7 @@ void MCP2515_TX(MCP2515_t *dev, uint16_t id, uint8_t dataLength, uint8_t *data_l
 
     uint8_t tx_msg[] = {MCP2515_WRITE,
     					TXBnCTRL_addr,
-						0x07};
+						0b00001011};
 
 	// Envia identifier para o buffer_n
 	MCP2515_Select(dev);
