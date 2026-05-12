@@ -20,18 +20,9 @@ void MCP2515_Config(MCP2515_t *dev){
 	uint8_t cnf1 = 0x00;
 	uint8_t cnf2 = 0xD1;
 	uint8_t cnf3 = 0x01;
-	uint8_t baudR_msg[]  = {MCP2515_WRITE,
-							MCP2515_CNF3,
-							cnf3,
-							cnf2,
-							cnf1};
-	uint8_t CANITE_msg[] =  {MCP2515_WRITE,
-							MCP2515_CANINTE,
-							0x1C};
-	uint8_t CANCTRL_msg[] = {MCP2515_WRITE,
-							MCP2515_CANCTRL,
-							0b00000100
-							};
+	uint8_t baudR_msg[]  = {MCP2515_WRITE,MCP2515_CNF3,cnf3,cnf2,cnf1};
+	uint8_t CANITE_msg[] =  {MCP2515_WRITE,MCP2515_CANINTE,0x1C};
+	uint8_t CANCTRL_msg[] = {MCP2515_WRITE,MCP2515_CANCTRL,0b00000100};
 
 	MCP2515_Select(dev);
     HAL_SPI_Transmit(dev->hspi, &resetInst, 1, 1);
