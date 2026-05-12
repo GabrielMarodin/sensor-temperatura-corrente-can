@@ -8,9 +8,10 @@
 #ifndef INC_CURRENT_TASK_H_
 #define INC_CURRENT_TASK_H_
 
+#include "task_flags.h"
 #include "global_data.h"
-#include "ISR_Flags.h"
 #include "main.h"
+#include "task_handles.h"
 
 #define DMA_BUFF_LENGTH 128
 

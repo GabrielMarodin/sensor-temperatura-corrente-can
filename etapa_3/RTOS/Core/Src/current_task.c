@@ -34,5 +34,7 @@ void CurrentTask(void *argument)
         {
         	IIRFilter(&adc_buffer[DMA_BUFF_LENGTH/2], DMA_BUFF_LENGTH/2);
         }
+
+        osThreadFlagsSet(canCurrentTaskHandle,CAN_CURR_READY);
     }
 }

@@ -11,6 +11,7 @@
 #include "cmsis_os.h"
 
 extern float temperatures[3];
+extern uint8_t faults[3];
 
 extern float current_squared;
 extern float current_rms;

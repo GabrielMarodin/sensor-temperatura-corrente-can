@@ -17,6 +17,7 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
+#include <task_flags.h>
 #include "main.h"
 #include "cmsis_os.h"
 
@@ -24,9 +25,10 @@
 /* USER CODE BEGIN Includes */
 #include "MAX31865.h"
 #include "global_data.h"
-#include "ISR_Flags.h"
 #include "current_task.h"
 #include "rtd_task.h"
+#include "can_temp_task.h"
+#include "can_current_task.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -172,11 +174,10 @@ int main(void)
 
   currentTaskHandle = osThreadNew(CurrentTask, NULL, &currentTask_attributes);
 
-  // TODO
-	  //canTempTaskHandle = osThreadNew(CANTempTask, NULL, &canTempTask_attributes);
+  canTempTaskHandle = osThreadNew(CANTempTask, NULL, &canTempTask_attributes);
 
-	  //canCurrentTaskHandle = osThreadNew(CANCurrentTask, NULL, &canCurrentTask_attributes);'
-  // END TODO
+  canCurrentTaskHandle = osThreadNew(CANCurrentTask, NULL, &canCurrentTask_attributes);
+
 
   /* USER CODE END RTOS_THREADS */
 

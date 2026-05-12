@@ -23,7 +23,6 @@ void RTD_Init(void)
 void RTDTask(void *argument)
 {
     uint16_t rtd;
-    uint8_t fault;
 
     for(;;)
     {
@@ -35,12 +34,13 @@ void RTDTask(void *argument)
 
             temperatures[i] = temperature(&devices[i], RNOMINAL, PREF);
 
-            fault = readFault(&devices[i], MAX31865_FAULT_AUTO);
+            faults[i] = readFault(&devices[i], MAX31865_FAULT_AUTO);
 
 //            if(fault)
 //            {
 //                clearFault(&devices[i]);
 //            }
         }
+        osThreadFlagsSet(canTempTaskHandle,CAN_TEMP_READY);
     }
 }

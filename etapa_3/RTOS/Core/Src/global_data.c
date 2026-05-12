@@ -9,6 +9,7 @@
 #include "global_data.h"
 
 float temperatures[3];
+uint8_t faults[3];
 
 float current_squared = 0.0f;
 float current_rms = 0.0f;
