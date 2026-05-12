@@ -23,6 +23,33 @@ Testes
 
 Descrição dos testes/validações realizadas.
 
+Sequência de funcionamento das tarefas
+======
+Corrente::
+
+   DMA callback (Half/Full)
+      ↓
+   CurrentTask
+      ↓
+   Treated buffer ready
+      ↓
+   CANCurrentTask wakes up
+      ↓
+   Calculate RMS
+      ↓
+   send via CAN
+
+Temperatura::
+
+   TIM3 ISR trigger
+      ↓
+   RTDTask
+      ↓
+   Temperatures updated
+      ↓
+   CANTempTask wakes up
+      ↓
+   send via CAN
 
 (Outras subseções se necessário)
 ================================
