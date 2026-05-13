@@ -24,8 +24,8 @@
 #include "gpio.h"
 
 /* SPI related variables */
-extern SPI_HandleTypeDef        hspi1;
-#define SPI_CAN                 &hspi1
+extern SPI_HandleTypeDef        hspi2;
+#define SPI_CAN                 &hspi2
 #define SPI_TIMEOUT             10
 #define MCP2515_CS_HIGH()   HAL_GPIO_WritePin(CAN_CS_GPIO_Port, CAN_CS_Pin, GPIO_PIN_SET)
 #define MCP2515_CS_LOW()    HAL_GPIO_WritePin(CAN_CS_GPIO_Port, CAN_CS_Pin, GPIO_PIN_RESET)
