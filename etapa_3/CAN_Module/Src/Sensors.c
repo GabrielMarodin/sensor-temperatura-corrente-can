@@ -64,9 +64,11 @@ void Mount_Temp_pkg(Temp_pkg* temp_pkg){
 void Current_Transmit(Current_pkg* curr_pkg){
 	Mount_Current_pkg(curr_pkg);
 	&(current_tx.frame.data0) = Current_Buffer;
+	CANSPI_Transmit(&current_tx);
 }
 
 void Temp_Transmit(Temp_pkg* temp_pkg){
 	Mount_Temp_pkg(temp_pkg);
 	&(temp_tx.frame.data0) = Temp_Buffer;
+	CANSPI_Transmit(&temp_tx);
 }
