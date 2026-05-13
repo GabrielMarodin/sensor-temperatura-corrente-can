@@ -17,9 +17,14 @@ static void MCP2515_Unselect(MCP2515_t *dev) {
 void MCP2515_Config(MCP2515_t *dev){
 
 	uint8_t resetInst = MCP2515_RESET;
+	// Para um cristal de 16 MHz e saída de 500 kHz
 	uint8_t cnf1 = 0x00;
 	uint8_t cnf2 = 0xD1;
 	uint8_t cnf3 = 0x01;
+	// Para um cristal de 8 MHz e saída de 500 kHz
+	// uint8_t cnf1 = 0x00; 
+    // uint8_t cnf2 = 0x91; 
+    // uint8_t cnf3 = 0x02;
 	uint8_t baudR_msg[]  = {MCP2515_WRITE,MCP2515_CNF3,cnf3,cnf2,cnf1};
 	uint8_t CANITE_msg[] =  {MCP2515_WRITE,MCP2515_CANINTE,0x1C};
 	uint8_t CANCTRL_msg[] = {MCP2515_WRITE,MCP2515_CANCTRL,0b00000100};
