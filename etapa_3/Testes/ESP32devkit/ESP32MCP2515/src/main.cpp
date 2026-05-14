@@ -26,10 +26,17 @@ void loop()
   {
     if (canMsg.can_id == CAN_ID)  // Check if the message is from the sender
     {
-      int data = (canMsg.data[0] << 8) | canMsg.data[1]; // MSB + LSB
+      unsigned char data[8];
+
+      for (int i = 0; i<8; i++){
+        data[i] = canMsg.data[i];
+      }
+      
 
       Serial.print("Data received: ");
-      Serial.print(data);
+      for (int i = 0; i<8; i++){
+        Serial.print(data[i]);
+      }
 
       // Send acknowledgment
       canMsg.can_id  = CAN_ACK_ID;  // Use ACK ID
