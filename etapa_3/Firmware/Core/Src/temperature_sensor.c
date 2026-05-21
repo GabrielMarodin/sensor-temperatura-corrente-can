@@ -6,7 +6,6 @@
  */
 
 #include "temperature_sensor.h"
-#include "main.h"
 
 Temp_pkg Mount_Temperature_Package(tempData_t data[3]){
 	Temp_pkg pkg;
@@ -36,11 +35,11 @@ void Send_Temperature_Package(Temp_pkg pkg, MCP2515_t *dev){
 	data_L[0] = (uint8_t)(pkg.Motor_Temp & 0xFF);
     data_L[1] = (uint8_t)((pkg.Motor_Temp >> 8) & 0x03);
     data_L[1] |= (uint8_t)((pkg.Charge_Temp << 2) & 0xFC);
-    data_L[2] = (uint8_t)((pkg.Charge_Temp >> 6) & 0x07); 
+    data_L[2] = (uint8_t)((pkg.Charge_Temp >> 6) & 0x07);
 	data_L[2] |= (uint8_t)((pkg.Batt_Temp << 3) & 0xF8);
     data_L[3] = (uint8_t)((pkg.Batt_Temp >> 5) & 0x1F);
 	data_L[3] |= (uint8_t)((pkg.Error_msg << 5) & 0xE0);
- 
+
 	MCP2515_TX(dev, 0x10, 4, data_L, 0);
 }
 
@@ -88,7 +87,7 @@ void CANTempTask(void *argument)
   	  if (osMessageQueueGet(temp_queue, data, 0, osWaitForever) == osOK)
   	  {
   		pkg = Mount_Temperature_Package(data);
-  		Send_Temperature_Package(pkg);
+  		Send_Temperature_Package(pkg, &hcan);
   	  }
 
     }

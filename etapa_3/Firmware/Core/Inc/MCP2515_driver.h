@@ -129,6 +129,8 @@ typedef struct {
     //uint8_t			cnf3;
 } MCP2515_t;
 
+extern MCP2515_t hcan;
+
 void MCP2515_Config(MCP2515_t *dev);
 
 uint8_t MCP2515_Read_INT_pin(MCP2515_t *dev);

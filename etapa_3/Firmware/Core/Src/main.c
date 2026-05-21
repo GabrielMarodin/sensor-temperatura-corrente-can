@@ -24,6 +24,7 @@
 /* USER CODE BEGIN Includes */
 #include "current_sensor.h"
 #include "temperature_sensor.h"
+#include "MCP2515_driver.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -85,6 +86,12 @@ const osThreadAttr_t canCurrentTask_attributes = {
     .priority = (osPriority_t) osPriorityLow,
 };
 
+MCP2515_t hcan = {
+		 &hspi2,
+		 GPIOB,
+		 GPIO_PIN_12
+};
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -144,6 +151,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   RTD_Init();
 
+  MCP2515_Config(&hcan);
 
   /* USER CODE END 2 */
 

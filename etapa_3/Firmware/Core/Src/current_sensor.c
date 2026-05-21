@@ -64,7 +64,7 @@ Current_pkg Mount_Current_Package(uint32_t *buffer, uint32_t length){
 /**
  * @brief: Envia pacote por SPI
  */
-void Send_Current_Package(Current_pkg pkg, MCP2515_t *dev) {
+void Send_Current_Package(Current_pkg pkg, MCP2515_t *dev){
     uint8_t data_L[4];
 
     data_L[0] = (uint8_t)(pkg.Peak_Current & 0xFF);
@@ -125,7 +125,7 @@ void CANCurrentTask(void *argument)
 		if (osMessageQueueGet(current_queue, filter_data, 0, osWaitForever) == osOK)
 		{
 			pkg = Mount_Current_Package(filter_data,DMA_BUFF_LENGTH);
-			Send_Current_Package(pkg);
+			Send_Current_Package(pkg, &hcan);
 		}
 
       }

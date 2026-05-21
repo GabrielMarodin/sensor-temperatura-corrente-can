@@ -51,6 +51,4 @@ void RTDTask(void *argument);
 
 void CANTempTask(void *argument);
 
-void Send_Temperature_Package(Temp_pkg pkg, MCP2515_t *dev);
-
 #endif /* INC_TEMPERATURE_SENSOR_H_ */
