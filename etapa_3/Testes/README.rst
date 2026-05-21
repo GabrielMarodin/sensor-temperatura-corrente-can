@@ -1,4 +1,4 @@
-Etapa 3
+Testes
 #######
 
 .. contents::
@@ -15,13 +15,13 @@ Esse diretório contém os códigos usados durante o teste dos drivers e hardwar
 Testes
 ======
 
-Foram testados ambos os controladores e transmissores CAN via SPI utilizando o blackpill como transmissor e o ESP32 como receptor de teste.
+Foram testados ambos os controladores e transmissores CAN via SPI utilizando o `Blackpill <pi3_CAN_test>`_ como transmissor e o `ESP32 <ESP32devkit/ESP32MCP2515>`_ como receptor de teste.
 
 Também foram testadas as tarefas no FreeRTOS para facilitar a temporização e escalonamento das tarefas de sensoriamento e comunicação.
 
 Sequência de funcionamento das tarefas
 ======
-Corrente::
+`Corrente <Sensor_RTOS/Core/Src/current_task.c#L21-42>`_::
 
    DMA callback (Half/Full)
       ↓
@@ -35,7 +35,7 @@ Corrente::
       ↓
    send via CAN
 
-Temperatura::
+`Temperatura <Sensor_RTOS/Core/Src/rtd_task.c#L24-48>`_::
 
    TIM3 ISR trigger
       ↓
