@@ -18,38 +18,7 @@ Desenvolvimento
 Apresentar o desenvolvimento da etapa contendo detalhes de implementação (se houver) de hardware e software. Adicionar pesqusisas realizadas bem como testes realizados.
 
 
-Testes
-======
-
-Descrição dos testes/validações realizadas.
-
-Sequência de funcionamento das tarefas
-======
-Corrente::
-
-   DMA callback (Half/Full)
-      ↓
-   CurrentTask
-      ↓
-   Treated buffer ready
-      ↓
-   CANCurrentTask wakes up
-      ↓
-   Calculate RMS
-      ↓
-   send via CAN
-
-Temperatura::
-
-   TIM3 ISR trigger
-      ↓
-   RTDTask
-      ↓
-   Temperatures updated
-      ↓
-   CANTempTask wakes up
-      ↓
-   send via CAN
+`Link para os Testes <Testes>`_
 
 (Outras subseções se necessário)
 ================================

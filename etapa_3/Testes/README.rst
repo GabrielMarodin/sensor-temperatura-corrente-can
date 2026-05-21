@@ -1,4 +1,4 @@
-Etapa 3
+Testes
 #######
 
 .. contents::
@@ -49,7 +49,10 @@ Sequência de funcionamento das tarefas
 
 Pinout do ESP32
 ======
+<<<<<<< HEAD
 
+=======
+>>>>>>> b129d57e47f36adcafec17fc866637413517347d
 ============ ==========  
 MCP2515 Pin  ESP32 Pin 
 ============ ==========
