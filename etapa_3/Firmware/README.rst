@@ -16,16 +16,17 @@ Desenvolvimento
 
 Tarefas
 =======
+`RTDTask <core/src/temperature_sensor.c#L45>`_ :
+   Utiliza o driver do MAX31865 para pegar as temperatura já convertidas pelo driver e os erros se existirem. Ela salva em uma fila que será consumida pela tarefa do CAN.
 
-`RTDTask <core/src/temperature_sensor.c#L45>`_
-`CANTempTask <core/src/temperature_sensor.c#L71>`_
-`CurrentTask <core/src/current_sensor.c#L83>`_
-`CANCurrentTask <core/src/current_sensor.c#L108>`_
+`CANTempTask <core/src/temperature_sensor.c#L71>`_ :
+   Consome os dados da fila e monta o pacote no formato CAN com as temps. e os erros e envia o pacote via SPI.
 
-Testes
-======
+`CurrentTask <core/src/current_sensor.c#L83>`_ :
+   Ativa por interrupção, ela filtra os valores do buffer do ADC via um butterworth IIR e salva na fila os dados filtrados para o CAN.
 
-Descrição dos testes/validações realizadas.
+`CANCurrentTask <core/src/current_sensor.c#L108>`_ :
+   Consome os dados da fila e monta o pacote no formato CAN com o valor RMS e pico e o sentido da corrente e envia o pacote via SPI.
 
 Sequência de funcionamento das tarefas
 ======
@@ -61,5 +62,21 @@ Temperatura::
       ↓
    send via CAN
 
+Pinout do Blackpill
+======
 
-
+============ ==========  
+Blackpill    Devices 
+============ ==========
+PA4 	       MAX31865 CS Device 1
+PA3 	       MAX31865 CS Device 2
+PA2 	       MAX31865 CS Device 3
+PA5 	       MAX31865 SCLK
+PA6	       MAX31865 MISO
+PA7	       MAX31865 MOSI
+PB12	       MCP2515 CS
+PB10 	       MCP2515 SCLK
+PB14	       MCP2515 MISO
+PB15	       MCP2515 MOSI
+PA0	       ADC Input
+============ ==========
