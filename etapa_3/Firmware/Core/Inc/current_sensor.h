@@ -38,4 +38,6 @@ void CurrentTask(void *argument);
 
 void CANCurrentTask(void *argument);
 
+void Send_Current_Package(Current_pkg pkg, MCP2515_t *dev);
+
 #endif /* INC_CURRENT_SENSOR_H_ */

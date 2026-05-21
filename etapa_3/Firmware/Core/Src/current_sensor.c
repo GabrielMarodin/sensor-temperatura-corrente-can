@@ -64,9 +64,18 @@ Current_pkg Mount_Current_Package(uint32_t *buffer, uint32_t length){
 /**
  * @brief: Envia pacote por SPI
  */
-void Send_Current_Package(Current_pkg pkg){
-	// TODO: implementar MCP2515
-	return;
+void Send_Current_Package(Current_pkg pkg, MCP2515_t *dev) {
+    uint8_t data_L[4];
+
+    data_L[0] = (uint8_t)(pkg.Peak_Current & 0xFF);
+    data_L[1]  = (uint8_t)((pkg.Peak_Current >> 8) & 0x07);
+    data_L[1] |= (uint8_t)((pkg.Peak_Dir << 3) & 0x08);
+    data_L[1] |= (uint8_t)((pkg.Current_RMS << 4) & 0xF0);
+    data_L[2]  = (uint8_t)((pkg.Current_RMS >> 4) & 0xFF);
+    data_L[3]  = (uint8_t)(pkg.Current_Dir & 0x01);
+    data_L[3] |= (uint8_t)((pkg.Error_msg << 1) & 0xFE);
+
+    MCP2515_TX(dev, 0x11, 4, data_L, 1);
 }
 
 static void IIRFilter(uint16_t *raw, uint32_t *filtered, uint32_t length)
