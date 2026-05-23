@@ -20,8 +20,34 @@ Apresentar o desenvolvimento da etapa contendo detalhes de implementação (se h
 
 `Link para os Testes <Testes>`_
 
-(Outras subseções se necessário)
+Teste da Rede CAN com Dados dos Sensores
 ================================
+Após implementação em código do `sensor de corrente <Testes/Sensor_RTOS/Core/Src/Current_Sensor.c>` 
+e dos `sensores de temperatura <Testes/Sensor_RTOS/Core/Src/Temperature_Sensor.c>`, foi implementada 
+à partir do `driver do MCP2515 <Testes/Sensor_RTOS/Core/Src/MCP2515_Driver.c>` a transmição dos 
+dados dos sensores utilizando o protocolo CAN nos IDS 0x10 e 0x11. O teste foi realizado utilizando um 
+`Testes/ESP32devkit/ESP32MCP2515` como nó receptor, com o blackpill STM atuando como 
+nó transmissor enviando mensagens.
+
+Segue uma imagem do teste da rede CAN, o osciloscópio mede a tensão diferencial da linha no módulo utilizado.
+.. image:: images/can_test.png
+   :height: 1600px
+   :width: 900 px
+   :scale: 30 %
+
+O ESP32 foi configurado para repassar as mensagems que recebe por SPI do MCP2515 para a porta 
+serial, e o terminal do computador foi configurado para receber as mensagens. 
+Abaixo temos um exemplo de mensagem recebida no terminal:
+```
+Mensagem CAN Recebida:
+ID: 0x10
+Data: ################
+Mensagem CAN Recebida:
+ID: 0x11
+Data: ################
+```
+
+TODO: Comparativo entre os dados recebidos e esperados
 
 
 Referências (links/datasheets/livros)
