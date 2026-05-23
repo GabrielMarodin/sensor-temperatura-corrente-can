@@ -614,18 +614,22 @@ def print_Hz_diff_eq(b, a, Separate=False):
     return
 
 
-def get_FFT(y, T=1, N=None):
+def get_FFT(y, T=1, N=None, fmin=0, fmax=None):
     if not N:
         N = len(y)
     N = len(y)
     H = (2.0/N) * (sp.fft.fft(y)[0:N//2])
     w = sp.fft.fftfreq(N, T)[:N//2]
+    if fmin != 0 or (fmax is not None):
+        mask = (w >= fmin) & (w <= fmax)
+        w = w[mask]
+        H = H[mask]
     F = [H, w]
     return F
 
 
-def plot_FFT(y, type="Mag_Only", T=1.0, dB=False, title=None, y1="H|ω|", y2="Phase"):
-    F = get_FFT(y, T)
+def plot_FFT(y, type="Mag_Only", T=1.0, dB=False, title=None, y1="H|ω|", y2="Phase", fmin=0, fmax=None):
+    F = get_FFT(y, T, None, fmin=fmin, fmax=fmax)
     Plot_Fourier(F, type, dB, title, y1, y2)
 
 
