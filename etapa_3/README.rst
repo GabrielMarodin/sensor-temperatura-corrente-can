@@ -20,8 +20,21 @@ Apresentar o desenvolvimento da etapa contendo detalhes de implementação (se h
 
 `Link para os Testes <Testes>`_
 
+Implementação do Protocolo CAN
+==============================
+
+Documentar a implementação
+
+Integração dos dados dos sensores à aplicação
+=============================================
+
+Documentar a integração das funcionalidades em um único arquivo (Firmware)
+
+- `Link para o firmware </Firmware>`_
+
+
 Teste da Rede CAN com Dados dos Sensores
-================================
+========================================
 Após implementação em código do `sensor de corrente <Testes/Sensor_RTOS/Core/Src/Current_Sensor.c>` 
 e dos `sensores de temperatura <Testes/Sensor_RTOS/Core/Src/Temperature_Sensor.c>`, foi implementada 
 à partir do `driver do MCP2515 <Testes/Sensor_RTOS/Core/Src/MCP2515_Driver.c>` a transmição dos 
@@ -49,6 +62,15 @@ Data: ################
 
 TODO: Comparativo entre os dados recebidos e esperados
 
+
+
+Esquemático da PCI
+==================
+
+
+
+Critérios de Desempenho
+***********************
 
 Referências (links/datasheets/livros)
 *************************************
