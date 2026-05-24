@@ -32,7 +32,7 @@ Integração dos dados dos sensores à aplicação
 
 Documentar a integração das funcionalidades em um único arquivo (Firmware)
 
-- `Link para o firmware </Firmware>`_
+- `Link para o firmware </etapa_3/Firmware>`_
 
 
 Teste da Rede CAN com Dados dos Sensores
