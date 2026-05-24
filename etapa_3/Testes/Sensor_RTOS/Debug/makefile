@@ -1,6 +1,6 @@
 ################################################################################
 # Automatically-generated file. Do not edit!
-# Toolchain: GNU Tools for STM32 (14.3.rel1)
+# Toolchain: GNU Tools for STM32 (13.3.rel1)
 ################################################################################
 
 -include ../makefile.init
@@ -9,11 +9,7 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
--include Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/subdir.mk
--include Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/subdir.mk
--include Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/subdir.mk
--include Middlewares/Third_Party/FreeRTOS/Source/subdir.mk
--include Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk
+-include Middlewares/FreeRTOS/subdir.mk
 -include Drivers/STM32F4xx_HAL_Driver/subdir.mk
 -include Core/Startup/subdir.mk
 -include Core/Src/subdir.mk
@@ -65,8 +61,8 @@ all: main-build
 main-build: Etapa_3.elf secondary-outputs
 
 # Tool invocations
-Etapa_3.elf Etapa_3.map: $(OBJS) $(USER_OBJS) /home/potato/Documentos/Uni/PI3/GabrielMarodin\ sensor-temperatura-corrente-can\ main\ etapa_3-RTOS/STM32F401CEUX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Etapa_3.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/home/potato/Documentos/Uni/PI3/GabrielMarodin sensor-temperatura-corrente-can main etapa_3-RTOS/STM32F401CEUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Etapa_3.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Etapa_3.elf Etapa_3.map: $(OBJS) $(USER_OBJS) C:\Facul\Fase_9_Engenharia_Eletronica\PI3\sensor-temperatura-corrente-can\etapa_3\Testes\Sensor_RTOS\STM32F401CEUX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Etapa_3.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Facul\Fase_9_Engenharia_Eletronica\PI3\sensor-temperatura-corrente-can\etapa_3\Testes\Sensor_RTOS\STM32F401CEUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Etapa_3.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

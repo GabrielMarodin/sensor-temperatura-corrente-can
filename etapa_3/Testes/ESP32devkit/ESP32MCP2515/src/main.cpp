@@ -4,13 +4,13 @@
  
 struct can_frame canMsg;
 struct MCP2515 mcp2515(5); // CS pin is GPIO 5
- 
-#define CAN_ACK_ID 0x037  // CAN ID for acknowledgment
-#define CAN_ID 0x036
+
+#define CAN_ID_1 0x010
+#define CAN_ID_2 0x011
 
 void setup()
 {
-  Serial.begin(115200);
+  Serial.begin(9600);
 
   SPI.begin();
  
@@ -24,25 +24,35 @@ void loop()
 {
   if (mcp2515.readMessage(&canMsg) == MCP2515::ERROR_OK)
   {
-    if (canMsg.can_id == CAN_ID)  // Check if the message is from the sender
+    if (canMsg.can_id == CAN_ID_1)  // Check if the message is from the sender
     {
-      unsigned char data[8];
+      unsigned char data[4];
 
-      for (int i = 0; i<8; i++){
+      for (int i = 0; i<4; i++){
         data[i] = canMsg.data[i];
       }
       
 
-      Serial.print("Data received: ");
-      for (int i = 0; i<8; i++){
-        Serial.print(data[i]);
+      Serial.println("Data received: ");
+      for (int i = 0; i<4; i++){
+        Serial.println(data[i]);
+        Serial.println((uint8_t)data[i]);
       }
+    }
+    if (canMsg.can_id == CAN_ID_2)  // Check if the message is from the sender
+    {
+      unsigned char data[4];
 
-      // Send acknowledgment
-      canMsg.can_id  = CAN_ACK_ID;  // Use ACK ID
-      canMsg.can_dlc = 0;           // No data needed for ACK
-      mcp2515.sendMessage(&canMsg);
-      Serial.println("ACK sent");
+      for (int i = 0; i<4; i++){
+        data[i] = canMsg.data[i];
+      }
+      
+
+      Serial.println("Data received: ");
+      for (int i = 0; i<4; i++){
+        Serial.println(data[i]);
+        Serial.println((uint8_t)data[i]);
+      }
     }
   }
 }
