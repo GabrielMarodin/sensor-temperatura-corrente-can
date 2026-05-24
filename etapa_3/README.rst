@@ -78,7 +78,7 @@ O esquemático apresentado em partes nos próximos tópicos foi desenvolvido par
 .. image:: images/Esquematico_potencia.png
 	:scale: 30%
 
-   Na figura acima é possível observar elementos de proteção contra sobrecorrente e surtos de tensão, além de um regulador linear destinado à alimentação do microcontrolador e de um conversor estático responsável por suprir as necessidades do sensor de corrente utilizado.
+Na figura acima é possível observar elementos de proteção contra sobrecorrente e surtos de tensão, além de um regulador linear destinado à alimentação do microcontrolador e de um conversor estático responsável por suprir as necessidades do sensor de corrente utilizado.
 
 
 - Conexão com a rede CAN, alimentação do módulo e do sensor de corrente.
@@ -86,14 +86,14 @@ O esquemático apresentado em partes nos próximos tópicos foi desenvolvido par
 .. image:: images/Esquematico_conectores.png
 	:scale: 30%
 
-   Além dos conectores RJ45 padrão do barco foi necessário a previsão de um conector 3 pinos genérico para a alimentação e retorno do sinal em corrente do LA 205-s.
+Além dos conectores RJ45 padrão do barco foi necessário a previsão de um conector 3 pinos genérico para a alimentação e retorno do sinal em corrente do LA 205-s.
 
 - Condicionamento do sinal de corrente do LA 205-s.
 
 .. image:: images/Esquematico_condicionamento_sinal.png
 	:scale: 30%
 
-   Observa-se na figura a presença de amplificadores operacionais configurados em diferentes topologias: buffer (para sinal de referência), somador não inversor (para obtenção do offset) e filtro ativo passa-baixa de segunda ordem.
+Observa-se na figura a presença de amplificadores operacionais configurados em diferentes topologias: buffer (para sinal de referência), somador não inversor (para obtenção do offset) e filtro ativo passa-baixa de segunda ordem.
 
    O circuito funciona de modo que:
 
@@ -101,21 +101,21 @@ O esquemático apresentado em partes nos próximos tópicos foi desenvolvido par
    - 3,3 V na saída correspondem a +200 A;
    - 0 V na saída equivalem a –200 A.
  
-   Ressalta-se que, atualmente, a frequência de corte do filtro encontra-se próxima de 120 kHz. No entanto, essa configuração pode ser ajustada posteriormente, mediante análise da forma de onda real da corrente do motor.
+Ressalta-se que, atualmente, a frequência de corte do filtro encontra-se próxima de 120 kHz. No entanto, essa configuração pode ser ajustada posteriormente, mediante análise da forma de onda real da corrente do motor.
 
 - Gerenciamento e envio de mensagens CAN.
 
 .. image:: images/Esquematico_CAN.png
 	:scale: 30%
 
-   Na figura acima obeserva-se os CIs responsáveis pelo gerenciamento do protocolo e transdução do sinal.
+Na figura acima obeserva-se os CIs responsáveis pelo gerenciamento do protocolo e transdução do sinal.
 
 - Processamento de dados e transdução da temperatura.
 
 .. image:: images/Esquematico_microcontrolador.png
 	:scale: 30%
 
-   Na figura acima observa-se a atribuição dos pinos no microcontrolador, além dos três módulos baseados no circuito integrado MAX31865. Ressalta-se que existe a possibilidade de substituir os módulos pelo próprio CI, entretanto, devem ser consideradas as restrições de fabricação da placa em virtude do encapsulamento do MAX31865.
+Na figura acima observa-se a atribuição dos pinos no microcontrolador, além dos três módulos baseados no circuito integrado MAX31865. Ressalta-se que existe a possibilidade de substituir os módulos pelo próprio CI, entretanto, devem ser consideradas as restrições de fabricação da placa em virtude do encapsulamento do MAX31865.
 
 Critérios de Desempenho
 ***********************
