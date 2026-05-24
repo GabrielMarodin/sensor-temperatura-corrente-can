@@ -37,11 +37,11 @@ Documentar a integração das funcionalidades em um único arquivo (Firmware)
 
 Teste da Rede CAN com Dados dos Sensores
 ========================================
-Após implementação em código do `sensor de corrente </Testes/Sensor_RTOS/Core/Src/Current_Sensor.c>`_ 
-e dos `sensores de temperatura </Testes/Sensor_RTOS/Core/Src/Temperature_Sensor.c>`_, foi implementada 
-à partir do `driver do MCP2515 </Testes/Sensor_RTOS/Core/Src/MCP2515_Driver.c>`_ a transmição dos 
+Após implementação em código do `sensor de corrente </etapa_3/Testes/Sensor_RTOS/Core/Src/Current_Sensor.c>`_ 
+e dos `sensores de temperatura </etapa_3/Testes/Sensor_RTOS/Core/Src/Temperature_Sensor.c>`_, foi implementada 
+à partir do `driver do MCP2515 </etapa_3/Testes/Sensor_RTOS/Core/Src/MCP2515_Driver.c>`_ a transmição dos 
 dados dos sensores utilizando o protocolo CAN nos IDS 0x10 e 0x11. O teste foi realizado utilizando um 
-`ESP 32 </Testes/ESP32devkit/ESP32MCP2515>`_ como nó receptor, com o blackpill STM atuando como 
+`ESP 32 </etapa_3/Testes/ESP32devkit/ESP32MCP2515>`_ como nó receptor, com o blackpill STM atuando como 
 nó transmissor enviando mensagens.
 
 Segue uma imagem do teste da rede CAN, o osciloscópio mede a tensão diferencial da linha no módulo utilizado.
