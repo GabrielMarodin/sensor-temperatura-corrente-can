@@ -69,7 +69,7 @@ TODO: Comparativo entre os dados recebidos e esperados
 Esquemático da PCI
 ==================
 
-O projeto KiCad onde foi elaborado o esquemático pode ser encontrado em:  `Link para o Esquemático do Projeto </PCB/Modulo_corrente_temperatura_barco_Zenite>`_ 
+O projeto KiCad onde foi elaborado o esquemático pode ser encontrado em:  `Link para o Esquemático do Projeto <https://github.com/GabrielMarodin/sensor-temperatura-corrente-can/tree/main/etapa_3/PCB/Modulo_corrente_temperatura_barco_Zenite>`_ 
 
 O esquemático apresentado em partes nos próximos tópicos foi desenvolvido para atender aos requisitos do projeto, considerando:
 
