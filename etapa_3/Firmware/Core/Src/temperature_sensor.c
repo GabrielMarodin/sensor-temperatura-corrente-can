@@ -7,40 +7,28 @@
 
 #include "temperature_sensor.h"
 
-Temp_pkg Mount_Temperature_Package(tempData_t data[3]){
-	Temp_pkg pkg;
+void Mount_Temperature_Package(tempData_t data[3], Temp_pkg *pkg){
 
-	pkg.Batt_Temp = (uint32_t)(data[2].Temperature*10) & BIT_MASK;
-	pkg.Motor_Temp = (uint32_t)(data[0].Temperature*10) & BIT_MASK;
-	pkg.Charge_Temp = (uint32_t)(data[1].Temperature*10) & BIT_MASK;
+	pkg->Batt_Temp = (uint32_t)(data[2].Temperature*10) & BIT_MASK;
+	pkg->Motor_Temp = (uint32_t)(data[0].Temperature*10) & BIT_MASK;
+	pkg->Charge_Temp = (uint32_t)(data[1].Temperature*10) & BIT_MASK;
 
-	pkg.Error_msg = 0;
+	pkg->Error_msg = 0;
 
 	if (data[0].Fault){
-		pkg.Error_msg |= 0b01;
+		pkg->Error_msg |= 0b01;
 	}
 	if (data[1].Fault){
-		pkg.Error_msg |= 0b10;
+		pkg->Error_msg |= 0b10;
 	}
 	if (data[2].Fault){
-		pkg.Error_msg |= 0b100;
+		pkg->Error_msg |= 0b100;
 	}
-
-	return pkg;
 }
 
 void Send_Temperature_Package(Temp_pkg pkg, MCP2515_t *dev){
-	uint8_t data_L[4];
 
-	data_L[0] = (uint8_t)(pkg.Motor_Temp & 0xFF);
-    data_L[1] = (uint8_t)((pkg.Motor_Temp >> 8) & 0x03);
-    data_L[1] |= (uint8_t)((pkg.Charge_Temp << 2) & 0xFC);
-    data_L[2] = (uint8_t)((pkg.Charge_Temp >> 6) & 0x07);
-	data_L[2] |= (uint8_t)((pkg.Batt_Temp << 3) & 0xF8);
-    data_L[3] = (uint8_t)((pkg.Batt_Temp >> 5) & 0x1F);
-	data_L[3] |= (uint8_t)((pkg.Error_msg << 5) & 0xE0);
-
-	MCP2515_TX(dev, 0x10, 4, data_L, 0);
+	MCP2515_TX(dev, 0x10, sizeof(Temp_pkg), (uint8_t *)&pkg, 0);
 }
 
 void RTD_Init(void)
@@ -86,7 +74,7 @@ void CANTempTask(void *argument)
 
   	  if (osMessageQueueGet(temp_queue, data, 0, osWaitForever) == osOK)
   	  {
-  		pkg = Mount_Temperature_Package(data);
+  		Mount_Temperature_Package(data, &pkg);
   		Send_Temperature_Package(pkg, &hcan);
   	  }
 
