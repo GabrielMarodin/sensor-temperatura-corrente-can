@@ -11,7 +11,6 @@ Visão geral
 
 Esse diretório contém os códigos usados durante o teste dos drivers e hardwares.
 
-
 Testes
 ======
 
@@ -21,7 +20,7 @@ Também foram testadas as tarefas no FreeRTOS para facilitar a temporização e 
 
 Sequência de funcionamento das tarefas
 ======
-`Corrente <Sensor_RTOS/Core/Src/current_task.c#L21-42>`_::
+`Corrente <Sensor_RTOS/Core/Src/current_task.c#L21-42>`_ ::
 
    DMA callback (Half/Full)
       ↓
@@ -48,11 +47,7 @@ Sequência de funcionamento das tarefas
    send via CAN
 
 Pinout do ESP32
-======
-<<<<<<< HEAD
 
-=======
->>>>>>> b129d57e47f36adcafec17fc866637413517347d
 ============ ==========  
 MCP2515 Pin  ESP32 Pin 
 ============ ==========
