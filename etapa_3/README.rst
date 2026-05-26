@@ -45,6 +45,7 @@ dados dos sensores utilizando o protocolo CAN nos IDS 0x10 e 0x11. O teste foi r
 nó transmissor enviando mensagens.
 
 Segue uma imagem do teste da rede CAN, o osciloscópio mede a tensão diferencial da linha no módulo utilizado.
+
 .. image:: images/can_test.png
    :height: 1600px
    :width: 900 px
