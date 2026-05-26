@@ -47,8 +47,6 @@ nó transmissor enviando mensagens.
 Segue uma imagem do teste da rede CAN, o osciloscópio mede a tensão diferencial da linha no módulo utilizado.
 
 .. image:: images/can_test.png
-   :height: 1600px
-   :width: 900 px
    :scale: 30 %
 
 O ESP32 foi configurado para repassar as mensagems que recebe por SPI do MCP2515 para a porta 
