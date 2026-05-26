@@ -75,8 +75,8 @@ PA5 	       MAX31865 SCLK
 PA6	       MAX31865 MISO
 PA7	       MAX31865 MOSI
 PB12	       MCP2515 CS
-PB10 	       MCP2515 SCLK
-PB15	       MCP2515 MOSI
+PB13 	       MCP2515 SCLK
 PB14	       MCP2515 MISO
+PB15	       MCP2515 MOSI
 PA0	       ADC Input
 ============ ==========
