@@ -24,12 +24,6 @@ extern SPI_HandleTypeDef hspi1;
 
 extern osMessageQueueId_t temp_queue;
 
-static MAX31865_HandleTypeDef devices[] = {
-		{CS1_GPIO_Port, CS1_Pin},
-		{CS2_GPIO_Port, CS2_Pin},
-		{CS3_GPIO_Port, CS3_Pin}
-};
-
 typedef struct tempData {
 	float Temperature; //valor da equacão de Callendar-Van Dusen
 	uint8_t Fault; // código de erro do módulo

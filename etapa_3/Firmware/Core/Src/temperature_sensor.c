@@ -7,6 +7,13 @@
 
 #include "temperature_sensor.h"
 
+
+static MAX31865_HandleTypeDef devices[] = {
+		{CS1_GPIO_Port, CS1_Pin},
+		{CS2_GPIO_Port, CS2_Pin},
+		{CS3_GPIO_Port, CS3_Pin}
+};
+
 void Mount_Temperature_Package(tempData_t data[3], Temp_pkg *pkg){
 
 	pkg->Batt_Temp = (uint32_t)(data[2].Temperature*10) & BIT_MASK;

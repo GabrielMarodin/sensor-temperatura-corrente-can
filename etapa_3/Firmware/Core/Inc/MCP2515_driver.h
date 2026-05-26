@@ -133,7 +133,7 @@ extern MCP2515_t hcan;
 
 void MCP2515_Config(MCP2515_t *dev);
 
-uint8_t MCP2515_Read_INT_pin(MCP2515_t *dev);
+//uint8_t MCP2515_Read_INT_pin(MCP2515_t *dev);
 
 void MCP2515_TX(MCP2515_t *dev, uint16_t id, uint8_t dataLength, uint8_t *data_load, uint8_t buffer_n);
 
