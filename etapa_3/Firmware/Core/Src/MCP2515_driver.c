@@ -28,11 +28,21 @@ void MCP2515_Config(MCP2515_t *dev){
     uint8_t cnf2 = 0x91;
     uint8_t cnf3 = 0x02;
 
-	uint8_t baudR_msg[]  = {
+	uint8_t baudR_msg_3[]  = {
 			MCP2515_WRITE,
 			MCP2515_CNF3,
-			cnf3,
-			cnf2,
+			cnf3
+	};
+
+	uint8_t baudR_msg_2[]  = {
+			MCP2515_WRITE,
+			MCP2515_CNF2,
+			cnf2
+	};
+
+	uint8_t baudR_msg_1[]  = {
+			MCP2515_WRITE,
+			MCP2515_CNF1,
 			cnf1
 	};
 
@@ -45,21 +55,35 @@ void MCP2515_Config(MCP2515_t *dev){
 	uint8_t CANCTRL_msg[] = {
 			MCP2515_WRITE,
 			MCP2515_CANCTRL,
-			0x60
+			0x80
 	};
+
 	MCP2515_Unselect(dev);
 
 
 	MCP2515_Select(dev);
-    HAL_SPI_Transmit(dev->hspi, &resetInst, 1, 1);
+    HAL_SPI_Transmit(dev->hspi, &resetInst, 1, 10);
     MCP2515_Unselect(dev);
 
     // Aguarda CI reiniciar
     HAL_Delay(10);
 
+	//Modo de configuração
+	MCP2515_Select(dev);
+    HAL_SPI_Transmit(dev->hspi, CANCTRL_msg, 3, 10);
+    MCP2515_Unselect(dev);
+
     // Configura o baudRate (500kbps)
 	MCP2515_Select(dev);
-    HAL_SPI_Transmit(dev->hspi, baudR_msg, 5, 1);
+    HAL_SPI_Transmit(dev->hspi, baudR_msg_1, 3, 10);
+    MCP2515_Unselect(dev);
+
+	MCP2515_Select(dev);
+    HAL_SPI_Transmit(dev->hspi, baudR_msg_2, 3, 10);
+    MCP2515_Unselect(dev);
+
+	MCP2515_Select(dev);
+    HAL_SPI_Transmit(dev->hspi, baudR_msg_3, 3, 10);
     MCP2515_Unselect(dev);
 
     // Habilita INT pin - Retorna status de conclusão da transmissão dos 3 buffers
@@ -67,9 +91,11 @@ void MCP2515_Config(MCP2515_t *dev){
 //    HAL_SPI_Transmit(dev->hspi, CANINT_msg, 3, 1);
 //    MCP2515_Unselect(dev);
 
-    // Modo de transmissão/ habilita clkout para debug
+    // Modo normal habilitado/ habilita clkout para debug
+	CANCTRL_msg[2] = 0x04;
+
 	MCP2515_Select(dev);
-    HAL_SPI_Transmit(dev->hspi, CANCTRL_msg, 3, 1);
+    HAL_SPI_Transmit(dev->hspi, CANCTRL_msg, 3, 10);
     MCP2515_Unselect(dev);
 
     HAL_Delay(1);
@@ -150,22 +176,22 @@ void MCP2515_TX(MCP2515_t *dev, uint16_t id, uint8_t dataLength, uint8_t *data_l
 
 	// Envia identifier para o buffer_n
 	MCP2515_Select(dev);
-    HAL_SPI_Transmit(dev->hspi, id_msg, 4, 1);
+    HAL_SPI_Transmit(dev->hspi, id_msg, 4, 10);
     MCP2515_Unselect(dev);
 
 	// Define tamanho do pacote de dados para o buffer_n
 	MCP2515_Select(dev);
-    HAL_SPI_Transmit(dev->hspi, dlc_msg, 3, 1);
+    HAL_SPI_Transmit(dev->hspi, dlc_msg, 3, 10);
     MCP2515_Unselect(dev);
 
 	// Carrega os dados no buffer escolhido
 	MCP2515_Select(dev);
-    HAL_SPI_Transmit(dev->hspi, load_msg, 2 + dataLength, 1);
+    HAL_SPI_Transmit(dev->hspi, load_msg, 2 + dataLength, 10);
     MCP2515_Unselect(dev);
 
     // Requisita envio da mensagem com prioridade "Highest message priority"
 	MCP2515_Select(dev);
-    HAL_SPI_Transmit(dev->hspi, tx_msg, 3, 1);
+    HAL_SPI_Transmit(dev->hspi, tx_msg, 3, 10);
     MCP2515_Unselect(dev);
 
 }
