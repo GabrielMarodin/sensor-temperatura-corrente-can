@@ -34,7 +34,7 @@ Conforme definido nas etapas anteriores, os dados dos sensores foram arranjados 
 
 Temperatura:
 
-+---------------------+--------------+
++-------------------+----------------+
 |        Dado       | Tamanho (Bits) |
 +===================+================+
 |    Temp. Motor    |       10       |
