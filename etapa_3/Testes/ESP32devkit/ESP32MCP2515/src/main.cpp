@@ -17,6 +17,8 @@ void setup()
   mcp2515.reset();
   mcp2515.setBitrate(CAN_500KBPS, MCP_8MHZ);
   mcp2515.setNormalMode();
+
+  //Serial.println("ESP32_configurado/n")
 }
  
  

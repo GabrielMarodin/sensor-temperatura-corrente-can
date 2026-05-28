@@ -6,7 +6,7 @@
  */
 
 #include "MAX31865.h"
-extern SPI_HandleTypeDef hspi2;
+extern SPI_HandleTypeDef hspi1;
 
 static inline void CS_LOW(MAX31865_HandleTypeDef *dev) {
     HAL_GPIO_WritePin(dev->cs_port, dev->cs_pin, GPIO_PIN_RESET);

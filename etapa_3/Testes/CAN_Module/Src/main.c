@@ -18,12 +18,14 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "cmsis_os.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include"MAX31865.h"
-#include<stdio.h>
-#include<string.h>
+#include "current_sensor.h"
+#include "temperature_sensor.h"
+#include "CANSPI.h"
+#include "MCP2515.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -33,11 +35,6 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define PREF 430.0    // Reference resistor value in ohms
-#define RNOMINAL 100.0 // Nominal RTD resistance at 0°C (PT100)
-#define BUFF_LENGHT 1
-#define CURRENT_ID 56 // Aleatório, deve ser mudado
-#define TEMP_ID    57 // Aleatório, deve ser mudado
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -50,14 +47,53 @@ ADC_HandleTypeDef hadc1;
 DMA_HandleTypeDef hdma_adc1;
 
 SPI_HandleTypeDef hspi1;
+SPI_HandleTypeDef hspi2;
 
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
 
+/* Definitions for defaultTask */
+osThreadId_t defaultTaskHandle;
+const osThreadAttr_t defaultTask_attributes = {
+  .name = "defaultTask",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
+};
 /* USER CODE BEGIN PV */
-uint32_t Current_Readout[BUFF_LENGHT];
-int32_t Current_Measured;
-volatile uint32_t rtd_flag = 0;
+osThreadId_t rtdTaskHandle;
+osThreadId_t currentTaskHandle;
+osThreadId_t canTempTaskHandle;
+osThreadId_t canCurrentTaskHandle;
+
+osMessageQueueId_t current_queue;
+osMessageQueueId_t temp_queue;
+
+uint16_t adc_buffer[DMA_BUFF_LENGTH];
+
+const osThreadAttr_t rtdTask_attributes = {
+    .name = "rtdTask",
+    .stack_size = 256 * 4,
+    .priority = (osPriority_t) osPriorityNormal,
+};
+
+const osThreadAttr_t currentTask_attributes = {
+    .name = "currentTask",
+    .stack_size = 256 * 4,
+    .priority = (osPriority_t) osPriorityAboveNormal,
+};
+
+const osThreadAttr_t canTempTask_attributes = {
+    .name = "canTempTask",
+    .stack_size = 256 * 4,
+    .priority = (osPriority_t) osPriorityLow,
+};
+
+const osThreadAttr_t canCurrentTask_attributes = {
+    .name = "canCurrentTask",
+    .stack_size = 256 * 4,
+    .priority = (osPriority_t) osPriorityLow,
+};
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -66,9 +102,11 @@ static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
 static void MX_ADC1_Init(void);
 static void MX_SPI1_Init(void);
-static void MX_SPI2_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_TIM3_Init(void);
+static void MX_SPI2_Init(void);
+void StartDefaultTask(void *argument);
+
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -86,11 +124,6 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-	uint16_t rtd; // Variable to store raw RTD value
-	uint8_t fault;                          // Variable to store fault status
-	max31865_fault_cycle_t fault_cycle = MAX31865_FAULT_AUTO;  // Default to auto fault detection
-	float ratio, resistance;                            // Variable for calculation ratios
-	MAX31865_HandleTypeDef device1 = {CS_GPIO_Port, CS_Pin};
 
   /* USER CODE END 1 */
 
@@ -115,16 +148,77 @@ int main(void)
   MX_DMA_Init();
   MX_ADC1_Init();
   MX_SPI1_Init();
-  MX_SPI2_Init();
   MX_TIM2_Init();
   MX_TIM3_Init();
+  MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
-  begin(&device1, MAX31865_3WIRE);
-  HAL_TIM_Base_Start(&htim2);
-  HAL_TIM_Base_Start_IT(&htim3);
-  HAL_ADC_Start_DMA(&hadc1, (uint32_t*)Current_Readout, BUFF_LENGHT);
-  Sensor_CAN_Init(CURRENT_ID, TEMP_ID);
+  RTD_Init();
+
+  if (!CANSPI_Initialize_loopBackMode()){
+	  uint8_t canstat = MCP2515_ReadByte(MCP2515_CANSTAT);
+	  uint8_t canctrl = MCP2515_ReadByte(MCP2515_CANCTRL);
+	  uint8_t eflg    = MCP2515_ReadByte(MCP2515_EFLG);
+	  Error_Handler();
+  }
+
+  if (CANSPI_isBussOff()){
+	  Error_Handler();
+  }
+
+
   /* USER CODE END 2 */
+
+  /* Init scheduler */
+  osKernelInitialize();
+
+  /* USER CODE BEGIN RTOS_MUTEX */
+  /* add mutexes, ... */
+  /* USER CODE END RTOS_MUTEX */
+
+  /* USER CODE BEGIN RTOS_SEMAPHORES */
+  /* add semaphores, ... */
+  /* USER CODE END RTOS_SEMAPHORES */
+
+  /* USER CODE BEGIN RTOS_TIMERS */
+  /* start timers, add new ones, ... */
+  /* USER CODE END RTOS_TIMERS */
+
+  /* USER CODE BEGIN RTOS_QUEUES */
+  /* add queues, ... */
+  current_queue = osMessageQueueNew(CURRENT_QUEUE_LENGTH, sizeof(uint32_t[DMA_BUFF_LENGTH]), NULL);
+
+  temp_queue = osMessageQueueNew(TEMP_QUEUE_LENGTH , sizeof(tempData_t[3]), NULL);
+
+  /* USER CODE END RTOS_QUEUES */
+
+  /* Create the thread(s) */
+  /* creation of defaultTask */
+  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+
+  /* USER CODE BEGIN RTOS_THREADS */
+  /* add threads, ... */
+  rtdTaskHandle = osThreadNew(RTDTask, NULL, &rtdTask_attributes);
+
+  currentTaskHandle = osThreadNew(CurrentTask, NULL, &currentTask_attributes);
+
+  canTempTaskHandle = osThreadNew(CANTempTask, NULL, &canTempTask_attributes);
+
+  canCurrentTaskHandle = osThreadNew(CANCurrentTask, NULL, &canCurrentTask_attributes);
+
+
+  /* USER CODE END RTOS_THREADS */
+
+  /* USER CODE BEGIN RTOS_EVENTS */
+  /* add events, ... */
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+  HAL_TIM_Base_Start_IT(&htim3);
+  HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adc_buffer, DMA_BUFF_LENGTH);
+  /* USER CODE END RTOS_EVENTS */
+
+  /* Start scheduler */
+  osKernelStart();
+
+  /* We should never get here as control is now taken by the scheduler */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -133,23 +227,6 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  if (rtd_flag){
-		  rtd_flag = 0;
-
-		  rtd = readRTD(&device1);
-		  ratio = (float)rtd/32768.0f;// Convert raw 15-bit value to ratio (0-1)
-		  resistance = PREF*ratio;
-
-		  // Check for faults
-		  fault = readFault(&device1, fault_cycle);
-
-		  if (fault) {
-
-		      clearFault(&device1);
-		  }
-	  }else{
-		  __WFI();
-	  }
   }
   /* USER CODE END 3 */
 }
@@ -290,6 +367,44 @@ static void MX_SPI1_Init(void)
 }
 
 /**
+  * @brief SPI2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_SPI2_Init(void)
+{
+
+  /* USER CODE BEGIN SPI2_Init 0 */
+
+  /* USER CODE END SPI2_Init 0 */
+
+  /* USER CODE BEGIN SPI2_Init 1 */
+
+  /* USER CODE END SPI2_Init 1 */
+  /* SPI2 parameter configuration*/
+  hspi2.Instance = SPI2;
+  hspi2.Init.Mode = SPI_MODE_MASTER;
+  hspi2.Init.Direction = SPI_DIRECTION_2LINES;
+  hspi2.Init.DataSize = SPI_DATASIZE_8BIT;
+  hspi2.Init.CLKPolarity = SPI_POLARITY_LOW;
+  hspi2.Init.CLKPhase = SPI_PHASE_1EDGE;
+  hspi2.Init.NSS = SPI_NSS_SOFT;
+  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_16;
+  hspi2.Init.FirstBit = SPI_FIRSTBIT_MSB;
+  hspi2.Init.TIMode = SPI_TIMODE_DISABLE;
+  hspi2.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+  hspi2.Init.CRCPolynomial = 10;
+  if (HAL_SPI_Init(&hspi2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN SPI2_Init 2 */
+
+  /* USER CODE END SPI2_Init 2 */
+
+}
+
+/**
   * @brief TIM2 Initialization Function
   * @param None
   * @retval None
@@ -310,7 +425,7 @@ static void MX_TIM2_Init(void)
   htim2.Instance = TIM2;
   htim2.Init.Prescaler = 0;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 173;
+  htim2.Init.Period = 6998;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_PWM_Init(&htim2) != HAL_OK)
@@ -393,7 +508,7 @@ static void MX_DMA_Init(void)
 
   /* DMA interrupt init */
   /* DMA2_Stream0_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA2_Stream0_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(DMA2_Stream0_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(DMA2_Stream0_IRQn);
 
 }
@@ -411,18 +526,40 @@ static void MX_GPIO_Init(void)
   /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(CS_GPIO_Port, CS_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : CS_Pin */
-  GPIO_InitStruct.Pin = CS_Pin;
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOA, CS3_Pin|CS2_Pin|CS1_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(CAN_CS_GPIO_Port, CAN_CS_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin : LED_Pin */
+  GPIO_InitStruct.Pin = LED_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(CS_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(LED_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : CS3_Pin CS2_Pin CS1_Pin */
+  GPIO_InitStruct.Pin = CS3_Pin|CS2_Pin|CS1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : CAN_CS_Pin */
+  GPIO_InitStruct.Pin = CAN_CS_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(CAN_CS_GPIO_Port, &GPIO_InitStruct);
 
   /* USER CODE BEGIN MX_GPIO_Init_2 */
 
@@ -430,20 +567,57 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
-	uint32_t milli_volts = (Current_Readout[0]*3300)>>10; // ADC de 10 bits
-	Current_Measured = ((int32_t)milli_volts-1650)>>4;
-	__NOP();
+void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc){
+	osThreadFlagsSet(currentTaskHandle, ADC_HALF_READY);
 }
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{
-    if (htim->Instance == TIM3)
-    {
-        //runs every 1 second
-    	rtd_flag = 1;
-    }
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
+	osThreadFlagsSet(currentTaskHandle, ADC_FULL_READY);
 }
 /* USER CODE END 4 */
+
+/* USER CODE BEGIN Header_StartDefaultTask */
+/**
+  * @brief  Function implementing the defaultTask thread.
+  * @param  argument: Not used
+  * @retval None
+  */
+/* USER CODE END Header_StartDefaultTask */
+void StartDefaultTask(void *argument)
+{
+  /* USER CODE BEGIN 5 */
+  /* Infinite loop */
+  for(;;)
+  {
+    HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+    osDelay(1000);
+  }
+  /* USER CODE END 5 */
+}
+
+/**
+  * @brief  Period elapsed callback in non blocking mode
+  * @note   This function is called  when TIM4 interrupt took place, inside
+  * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
+  * a global variable "uwTick" used as application time base.
+  * @param  htim : TIM handle
+  * @retval None
+  */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  /* USER CODE BEGIN Callback 0 */
+	if (htim->Instance == TIM3)
+	{
+		osThreadFlagsSet(rtdTaskHandle, RTD_READ_FLAG); // every 1 second
+	}
+  /* USER CODE END Callback 0 */
+  if (htim->Instance == TIM4)
+  {
+    HAL_IncTick();
+  }
+  /* USER CODE BEGIN Callback 1 */
+
+  /* USER CODE END Callback 1 */
+}
 
 /**
   * @brief  This function is executed in case of error occurrence.
@@ -454,6 +628,8 @@ void Error_Handler(void)
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
   __disable_irq();
+
+  __BKPT();
   while (1)
   {
   }

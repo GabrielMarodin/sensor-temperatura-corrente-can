@@ -21,7 +21,7 @@
 */
 
 #include "MCP2515.h"
-#include "gpio.h"
+#include <string.h>
 
 /* SPI related variables */
 extern SPI_HandleTypeDef        hspi2;
@@ -90,6 +90,24 @@ bool MCP2515_SetNormalMode(void)
   } while(loop > 0);
   
   return false;
+}
+
+bool MCP2515_SetLoopbackMode(void)
+{
+    MCP2515_WriteByte(MCP2515_CANCTRL, 0x40);
+
+    uint8_t loop = 10;
+
+    do
+    {
+        if ((MCP2515_ReadByte(MCP2515_CANSTAT) & 0xE0) == 0x40)
+            return true;
+
+        loop--;
+
+    } while (loop > 0);
+
+    return false;
 }
 
 /* Entering sleep mode */
@@ -264,13 +282,16 @@ static void SPI_TxBuffer(uint8_t *buffer, uint8_t length)
 /* SPI Rx wrapper function */
 static uint8_t SPI_Rx(void)
 {
-  uint8_t retVal;
-  HAL_SPI_Receive(SPI_CAN, &retVal, 1, SPI_TIMEOUT);
-  return retVal;
+	uint8_t retVal;
+
+	HAL_SPI_Receive(SPI_CAN, &retVal, 1, SPI_TIMEOUT);
+
+	return retVal;
 }
 
 /* SPI Rx wrapper function */
 static void SPI_RxBuffer(uint8_t *buffer, uint8_t length)
 {
-  HAL_SPI_Receive(SPI_CAN, buffer, length, SPI_TIMEOUT);
+	HAL_SPI_Receive(SPI_CAN, buffer, length, SPI_TIMEOUT);
+
 }

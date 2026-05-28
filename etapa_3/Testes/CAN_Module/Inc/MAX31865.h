@@ -8,9 +8,10 @@
 #ifndef INC_MAX31865_H_
 #define INC_MAX31865_H_
 
-#include <main.h>
+#include "main.h"
 #include <stdbool.h>
 #include <math.h>
+
 // MAX31865 register addresses and configuration bit masks
 #define MAX31865_CONFIG_REG 0x00
 #define MAX31865_CONFIG_BIAS 0x80

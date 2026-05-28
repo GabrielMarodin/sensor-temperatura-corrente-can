@@ -47,6 +47,7 @@ typedef union {
 #define dEXTENDED_CAN_MSG_ID_2_0B 2
 
 bool CANSPI_Initialize(void);
+bool CANSPI_Initialize_loopBackMode(void);
 void CANSPI_Sleep(void);
 uint8_t CANSPI_Transmit(uCAN_MSG *tempCanMsg);
 uint8_t CANSPI_Receive(uCAN_MSG *tempCanMsg);

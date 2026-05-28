@@ -138,10 +138,10 @@ bool CANSPI_Initialize(void)
 	  MCP2515_WriteByte(MCP2515_CNF1, 0x00);
 	  
 	  /* 1 1 100(5tq) 101(6tq) */  
-	  MCP2515_WriteByte(MCP2515_CNF2, 0xE5);
+	  MCP2515_WriteByte(MCP2515_CNF2, 0x90);
 	  
 	  /* 1 0 000 011(4tq) */  
-	  MCP2515_WriteByte(MCP2515_CNF3, 0x83);
+	  MCP2515_WriteByte(MCP2515_CNF3, 0x02);
 	  
 	  /* Normal 모드로 설정 */
 	  if(!MCP2515_SetNormalMode())
@@ -149,7 +149,107 @@ bool CANSPI_Initialize(void)
 	  
 	  return true;
 }
+bool CANSPI_Initialize_loopBackMode(void)
+{
+	  RXF0 RXF0reg;
+	  RXF1 RXF1reg;
+	  RXF2 RXF2reg;
+	  RXF3 RXF3reg;
+	  RXF4 RXF4reg;
+	  RXF5 RXF5reg;
+	  RXM0 RXM0reg;
+	  RXM1 RXM1reg;
 
+	  /* Intialize Rx Mask values */
+	  RXM0reg.RXM0SIDH = 0x00;
+	  RXM0reg.RXM0SIDL = 0x00;
+	  RXM0reg.RXM0EID8 = 0x00;
+	  RXM0reg.RXM0EID0 = 0x00;
+
+	  RXM1reg.RXM1SIDH = 0x00;
+	  RXM1reg.RXM1SIDL = 0x00;
+	  RXM1reg.RXM1EID8 = 0x00;
+	  RXM1reg.RXM1EID0 = 0x00;
+
+	  /* Intialize Rx Filter values */
+	  RXF0reg.RXF0SIDH = 0x00;
+	  RXF0reg.RXF0SIDL = 0x00;      //Starndard Filter
+	  RXF0reg.RXF0EID8 = 0x00;
+	  RXF0reg.RXF0EID0 = 0x00;
+
+	  RXF1reg.RXF1SIDH = 0x00;
+	  RXF1reg.RXF1SIDL = 0x08;      //Exntended Filter
+	  RXF1reg.RXF1EID8 = 0x00;
+	  RXF1reg.RXF1EID0 = 0x00;
+
+	  RXF2reg.RXF2SIDH = 0x00;
+	  RXF2reg.RXF2SIDL = 0x00;
+	  RXF2reg.RXF2EID8 = 0x00;
+	  RXF2reg.RXF2EID0 = 0x00;
+
+	  RXF3reg.RXF3SIDH = 0x00;
+	  RXF3reg.RXF3SIDL = 0x00;
+	  RXF3reg.RXF3EID8 = 0x00;
+	  RXF3reg.RXF3EID0 = 0x00;
+
+	  RXF4reg.RXF4SIDH = 0x00;
+	  RXF4reg.RXF4SIDL = 0x00;
+	  RXF4reg.RXF4EID8 = 0x00;
+	  RXF4reg.RXF4EID0 = 0x00;
+
+	  RXF5reg.RXF5SIDH = 0x00;
+	  RXF5reg.RXF5SIDL = 0x08;
+	  RXF5reg.RXF5EID8 = 0x00;
+	  RXF5reg.RXF5EID0 = 0x00;
+
+	  /* Intialize MCP2515, check SPI */
+	  if(!MCP2515_Initialize())
+	  {
+			return false;
+	  }
+
+	  /* Change mode as configuration mode */
+	  if(!MCP2515_SetConfigMode())
+	  {
+			return false;
+	  }
+
+	  /* Configure filter & mask */
+	  MCP2515_WriteByteSequence(MCP2515_RXM0SIDH, MCP2515_RXM0EID0, &(RXM0reg.RXM0SIDH));
+	  MCP2515_WriteByteSequence(MCP2515_RXM1SIDH, MCP2515_RXM1EID0, &(RXM1reg.RXM1SIDH));
+	  MCP2515_WriteByteSequence(MCP2515_RXF0SIDH, MCP2515_RXF0EID0, &(RXF0reg.RXF0SIDH));
+	  MCP2515_WriteByteSequence(MCP2515_RXF1SIDH, MCP2515_RXF1EID0, &(RXF1reg.RXF1SIDH));
+	  MCP2515_WriteByteSequence(MCP2515_RXF2SIDH, MCP2515_RXF2EID0, &(RXF2reg.RXF2SIDH));
+	  MCP2515_WriteByteSequence(MCP2515_RXF3SIDH, MCP2515_RXF3EID0, &(RXF3reg.RXF3SIDH));
+	  MCP2515_WriteByteSequence(MCP2515_RXF4SIDH, MCP2515_RXF4EID0, &(RXF4reg.RXF4SIDH));
+	  MCP2515_WriteByteSequence(MCP2515_RXF5SIDH, MCP2515_RXF5EID0, &(RXF5reg.RXF5SIDH));
+
+	  /* Accept All (Standard + Extended) */
+	  MCP2515_WriteByte(MCP2515_RXB0CTRL, 0x04);    //Enable BUKT, Accept Filter 0
+	  MCP2515_WriteByte(MCP2515_RXB1CTRL, 0x01);    //Accept Filter 1
+
+	  /*
+	  * tq = 2 * (brp(0) + 1) / 16000000 = 0.125us
+	  * tbit = (SYNC_SEG(1 fixed) + PROP_SEG + PS1 + PS2)
+	  * tbit = 1tq + 5tq + 6tq + 4tq = 16tq
+	  * 16tq = 2us = 500kbps
+	  */
+
+	  /* 00(SJW 1tq) 000000 */
+	  MCP2515_WriteByte(MCP2515_CNF1, 0x00);
+
+	  /* 1 1 100(5tq) 101(6tq) */
+	  MCP2515_WriteByte(MCP2515_CNF2, 0x90);
+
+	  /* 1 0 000 011(4tq) */
+	  MCP2515_WriteByte(MCP2515_CNF3, 0x02);
+
+	  /* Normal 모드로 설정 */
+	  if(!MCP2515_SetLoopbackMode())
+		return false;
+
+	  return true;
+}
 /* Transmit CAN message */
 uint8_t CANSPI_Transmit(uCAN_MSG *tempCanMsg) 
 {
