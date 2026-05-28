@@ -82,7 +82,7 @@ Estes dados foram integrados em pacotes com o seguinte código:
 
    typedef struct __attribute__((packed)) {
       uint32_t Motor_Temp  : 10; // Temperatura do Motor
-      uint32_t Charge_Temp : 9; // Temperatura dos Controladores de Carga
+      uint32_t Charge_Temp : 10; // Temperatura dos Controladores de Carga
       uint32_t Batt_Temp   : 10; // Temperatura da Bateria
       uint32_t Error_msg   : 3;  // Mensagens de Erro
    } Temp_pkg;
