@@ -25,7 +25,8 @@ Apresentar o desenvolvimento da etapa contendo detalhes de implementação (se h
 Implementação do Protocolo CAN
 ==============================
 
-Documentar a implementação
+O `driver </etapa_3/Testes/pi3_CAN_test/Core/Src/MCP2515_driver.c>`_ do MCP2515 se baseia na implementação da Microchip e utiliza o mapa de registradores do  `datasheet <https://ww1.microchip.com/downloads/en/DeviceDoc/MCP2515-Stand-Alone-CAN-Controller-with-SPI-20001801J.pdf>`_ (tabelas 11-1 e 11-2).
+O MCP2515 é configurado para ter sua divisão de clock de 8 MHz de forma a transmitir em 500 Kbps;
 
 Integração dos dados dos sensores à aplicação
 =============================================
