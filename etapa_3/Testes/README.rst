@@ -20,7 +20,7 @@ Também foram testadas as tarefas no FreeRTOS para facilitar a temporização e 
 
 Imagem de teste do `Transmissor CAN </etapa_3/Testes/CAN_Module/Src>`_ onde foi observado o envio da corrente e o pacote recebido.
 
-.. image:: etapa_3/images/teste_tx_rx_current.png
+.. image:: /etapa_3/images/teste_tx_rx_current.png
    :scale: 30 %
 
 Sequência de funcionamento das tarefas
