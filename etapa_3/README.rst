@@ -64,7 +64,7 @@ Corrente:
 
 Estes dados foram integrados em pacotes com o seguinte código:
 
-`sensor de corrente </etapa_3/Testes/Sensor_RTOS/Core/Inc/Current_Sensor.h>`_:
+`sensor de corrente </etapa_3/Firmware/Core/Inc/current_sensor.h>`_:
 
 .. code-block:: C
 
@@ -76,14 +76,14 @@ Estes dados foram integrados em pacotes com o seguinte código:
       uint32_t Error_msg    : 7;  // Mensagens de Erro
    } Current_pkg;
 
-`sensores de temperatura </etapa_3/Testes/Sensor_RTOS/Core/Inc/Temperature_Sensor.h>`_:
+`sensores de temperatura </etapa_3/Firmware/Core/Inc/temperature_sensor.h>`_:
 
 .. code-block:: C
 
    typedef struct __attribute__((packed)) {
       uint32_t Motor_Temp  : 10; // Temperatura do Motor
       uint32_t Charge_Temp : 9; // Temperatura dos Controladores de Carga
-      uint32_t Batt_Temp	 : 10; // Temperatura da Bateria
+      uint32_t Batt_Temp   : 10; // Temperatura da Bateria
       uint32_t Error_msg   : 3;  // Mensagens de Erro
    } Temp_pkg;
 
@@ -102,8 +102,6 @@ nó transmissor enviando mensagens.
 Segue uma imagem do teste da rede CAN, o osciloscópio mede a tensão diferencial da linha no módulo utilizado.
 
 .. image:: images/can_test.png
-   :height: 1600px
-   :width: 900 px
    :scale: 30 %
 
 O ESP32 foi configurado para repassar as mensagems que recebe por SPI do MCP2515 para a porta 
