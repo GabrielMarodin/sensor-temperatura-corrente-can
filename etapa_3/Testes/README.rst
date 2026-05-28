@@ -18,6 +18,11 @@ Foram testados ambos os controladores e transmissores CAN via SPI utilizando o `
 
 Também foram testadas as tarefas no FreeRTOS para facilitar a temporização e escalonamento das tarefas de sensoriamento e comunicação.
 
+Imagem de teste do `Transmissor CAN </etapa_3/Testes/CAN_Module/Src>`_ onde foi observado o envio da corrente e o pacote recebido.
+
+.. image:: etapa_3/images/teste_tx_rx_current.png
+   :scale: 30 %
+
 Sequência de funcionamento das tarefas
 ======
 `Corrente <Sensor_RTOS/Core/Src/current_task.c#L21-42>`_ ::
