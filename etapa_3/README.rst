@@ -30,7 +30,7 @@ Documentar a implementação
 Integração dos dados dos sensores à aplicação
 =============================================
 
-Conforme definido nas etapas anteriores, os dados dos sensores foram arranjados da seguinte maneira:
+Os dados dos sensores foram arranjados da seguinte maneira:
 
 Temperatura:
 
@@ -39,12 +39,14 @@ Temperatura:
 +===================+================+
 |    Temp. Motor    |       10       |
 +-------------------+----------------+
-| Temp. Controlador |       10       |
+| Temp. Controlador |       9        |
 +-------------------+----------------+
 |   Temp. Bateria   |       10       |
 +-------------------+----------------+
-|  Falha Detectada  |        2       |
+|  Falha Detectada  |        3       |
 +-------------------+----------------+
+
+Foi alterado para possibilitar o relatório de erro individual de cada sensor.
 
 Corrente:
 
@@ -82,7 +84,7 @@ Estes dados foram integrados em pacotes com o seguinte código:
 
    typedef struct __attribute__((packed)) {
       uint32_t Motor_Temp  : 10; // Temperatura do Motor
-      uint32_t Charge_Temp : 10; // Temperatura dos Controladores de Carga
+      uint32_t Charge_Temp : 9;  // Temperatura dos Controladores de Carga
       uint32_t Batt_Temp   : 10; // Temperatura da Bateria
       uint32_t Error_msg   : 3;  // Mensagens de Erro
    } Temp_pkg;
