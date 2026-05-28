@@ -30,7 +30,51 @@ Documentar a implementação
 Integração dos dados dos sensores à aplicação
 =============================================
 
-Documentar a integração das funcionalidades em um único arquivo (Firmware)
+Conforme definido nas etapas anteriores, os dados dos sensores foram arranjados da seguinte maneira:
+
+Temperatura:
+
+|        Dado       | Tamanho (Bits) |
+|:-----------------:|:--------------:|
+|    Temp. Motor    |       10       |
+| Temp. Controlador |       10       |
+|   Temp. Bateria   |       10       |
+|  Falha Detectada  |        2       |
+
+Corrente:
+
+|         Dado        | Tamanho (Bits) |
+|:-------------------:|:--------------:|
+|   Corrente de Pico  |       12       |
+|   Sentido do Pico   |        1       |
+|     Corrente RMS    |       12       |
+| Sentido da Corrente |        1       |
+|   Mensagem de Erro  |        7       |
+
+Estes dados foram integrados em pacotes com o seguinte código:
+
+`sensor de corrente </etapa_3/Testes/Sensor_RTOS/Core/Inc/Current_Sensor.h>`_:
+
+.. code-block:: C
+
+	typedef struct __attribute__((packed)) {
+      uint32_t Peak_Current : 11; // Corrente de Pico
+      uint32_t Peak_Dir     : 1;  // Sentido da Corrente de Pico
+      uint32_t Current_RMS  : 12; // Corrente RMS
+      uint32_t Current_Dir  : 1;  // Direção Principal da Corrente
+      uint32_t Error_msg    : 7;  // Mensagens de Erro
+   } Current_pkg;
+
+`sensores de temperatura </etapa_3/Testes/Sensor_RTOS/Core/Inc/Temperature_Sensor.h>`_:
+
+.. code-block:: C
+
+   typedef struct __attribute__((packed)) {
+      uint32_t Motor_Temp  : 10; // Temperatura do Motor
+      uint32_t Charge_Temp : 9; // Temperatura dos Controladores de Carga
+      uint32_t Batt_Temp	 : 10; // Temperatura da Bateria
+      uint32_t Error_msg   : 3;  // Mensagens de Erro
+   } Temp_pkg;
 
 - `Link para o firmware </etapa_3/Firmware>`_
 
@@ -47,11 +91,14 @@ nó transmissor enviando mensagens.
 Segue uma imagem do teste da rede CAN, o osciloscópio mede a tensão diferencial da linha no módulo utilizado.
 
 .. image:: images/can_test.png
+   :height: 1600px
+   :width: 900 px
    :scale: 30 %
 
 O ESP32 foi configurado para repassar as mensagems que recebe por SPI do MCP2515 para a porta 
 serial, e o terminal do computador foi configurado para receber as mensagens. 
 Abaixo temos um exemplo de mensagem recebida no terminal:
+
 ```
 Mensagem CAN Recebida:
 ID: 0x10
