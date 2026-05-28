@@ -23,6 +23,13 @@ Imagem de teste do `Transmissor CAN </etapa_3/Testes/CAN_Module/Src>`_ onde foi 
 .. image:: /etapa_3/images/teste_tx_rx_current.png
    :scale: 100 %
 
+Foi montada uma placa perfurada de cobre para testar a transmissão.
+
+.. image:: /etapa_3/images/montagem_de_teste.jpeg
+   :scale: 80 %
+
+Na imagem temos o Blackpill conectado via SPI2 ao MCP2515 (tx) e um ESP32 conectado via SPI no MCP2515 (rx).
+
 Sequência de funcionamento das tarefas
 ======
 `Corrente <Sensor_RTOS/Core/Src/current_task.c#L21-42>`_ ::
