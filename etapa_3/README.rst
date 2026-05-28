@@ -34,22 +34,33 @@ Conforme definido nas etapas anteriores, os dados dos sensores foram arranjados 
 
 Temperatura:
 
++---------------------+--------------+
 |        Dado       | Tamanho (Bits) |
-|:-----------------:|:--------------:|
++=====================+==============+
 |    Temp. Motor    |       10       |
++---------------------+--------------+
 | Temp. Controlador |       10       |
++---------------------+--------------+
 |   Temp. Bateria   |       10       |
++---------------------+--------------+
 |  Falha Detectada  |        2       |
++---------------------+--------------+
 
 Corrente:
 
-|         Dado        | Tamanho (Bits) |
-|:-------------------:|:--------------:|
-|   Corrente de Pico  |       12       |
-|   Sentido do Pico   |        1       |
-|     Corrente RMS    |       12       |
-| Sentido da Corrente |        1       |
-|   Mensagem de Erro  |        7       |
++---------------------+----------------+
+| Dado                | Tamanho (Bits) |
++=====================+================+
+| Corrente de Pico    | 12             |
++---------------------+----------------+
+| Sentido do Pico     | 1              |
++---------------------+----------------+
+| Corrente RMS        | 12             |
++---------------------+----------------+
+| Sentido da Corrente | 1              |
++---------------------+----------------+
+| Mensagem de Erro    | 7              |
++---------------------+----------------+
 
 Estes dados foram integrados em pacotes com o seguinte código:
 
