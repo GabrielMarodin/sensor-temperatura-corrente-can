@@ -17,10 +17,8 @@ Além disso, será abordado a elaboração do esquemático da placa de circuito 
 Desenvolvimento
 ***************
 
-Apresentar o desenvolvimento da etapa contendo detalhes de implementação (se houver) de hardware e software. Adicionar pesqusisas realizadas bem como testes realizados.
-
-
 `Link para os Testes <Testes>`_
+
 
 Implementação do Protocolo CAN
 ==============================
@@ -108,20 +106,8 @@ Segue uma imagem do teste da rede CAN, o osciloscópio mede a tensão diferencia
    :scale: 30 %
 
 O ESP32 foi configurado para repassar as mensagems que recebe por SPI do MCP2515 para a porta 
-serial, e o terminal do computador foi configurado para receber as mensagens. 
-Abaixo temos um exemplo de mensagem recebida no terminal:
-
-```
-Mensagem CAN Recebida:
-ID: 0x10
-Data: ################
-Mensagem CAN Recebida:
-ID: 0x11
-Data: ################
-```
-
-TODO: Comparativo entre os dados recebidos e esperados
-
+serial, e o terminal do computador foi configurado para receber as mensagens. Devido à um problema de comunicação,
+não foi possível realizar a leitura da rede CAN.
 
 
 Esquemático da PCI
@@ -189,8 +175,11 @@ Os critérios de desempenho adotados para o projeto, que deverão ser medidos na
 Referências (links/datasheets/livros)
 *************************************
 
-- `nRF Connect SDK <https://developer.nordicsemi.com/nRF_Connect_SDK/doc/2.4.2/nrf/getting_started/modifying.html#configure-application>`_
-
 - `Código de interface MCP2515 <https://github.com/eziya/STM32_SPI_MCP2515/tree/master>`_
+
+- `Datasheet do MCP2515 <https://www.microchip.com/en-us/product/mcp2515>`_
+
+- `GitHub do Zenite Solar <https://github.com/ZeniteSolar>`_
+
 
 
