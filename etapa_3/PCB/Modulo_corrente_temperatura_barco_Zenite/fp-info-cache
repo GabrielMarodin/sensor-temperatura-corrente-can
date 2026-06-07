@@ -1,4 +1,4 @@
-26641721251444998
+26645282636088401
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -106260,6 +106260,13 @@ Inductor
 2
 2
 pi-III-lib
+B3BXHALFSN
+B3B-XH-A(LF)(SN)-2
+Connector
+0
+3
+3
+pi-III-lib
 BlackPill
 
 
@@ -106273,6 +106280,13 @@ Power Supply
 0
 7
 7
+pi-III-lib
+fuse_holder
+Fuse Holder MF-563, 4A 250V AC, φ5.2x20mm fuse
+fuse holder
+0
+2
+2
 pi-III-lib
 max31868_module
 
