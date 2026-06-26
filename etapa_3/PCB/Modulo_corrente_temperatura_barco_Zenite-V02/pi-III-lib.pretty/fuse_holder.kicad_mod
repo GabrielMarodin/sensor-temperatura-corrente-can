@@ -1,0 +1,115 @@
+(footprint "fuse_holder"
+	(version 20241229)
+	(generator "pcbnew")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(descr "Fuse Holder MF-563, 4A 250V AC, φ5.2x20mm fuse")
+	(tags "fuse holder")
+	(property "Reference" "REF**"
+		(at 9.45 7.615 0)
+		(layer "F.SilkS")
+		(uuid "29aff620-1506-4715-a2e6-450182bdc971")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "FuseHolder_MF-563"
+		(at 0 7.493 180)
+		(layer "F.Fab")
+		(uuid "31106b3f-136d-47e1-af8e-c3d49739f509")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "d91e5374-64e7-47d4-9716-ae717a6eabf2")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "52c0acd7-80c4-4342-bf39-381e8ebd599a")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr through_hole)
+	(fp_line
+		(start -4.51 0)
+		(end 15.17 0)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "31fb77be-a6e6-4145-b11e-5aac3d7d6d60")
+	)
+	(fp_rect
+		(start -6.604 4.888)
+		(end 17.936 -4.826)
+		(stroke
+			(width 0.1016)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "5421db75-9274-4c3f-b87d-320d214e6de0")
+	)
+	(fp_rect
+		(start -7.112 5.38)
+		(end 18.428 -5.334)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "7893d065-cc9f-440d-a57b-b17f312f31fb")
+	)
+	(fp_rect
+		(start -6.604 4.966)
+		(end 17.96 -4.826)
+		(stroke
+			(width 0.1016)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "bd2ddb4a-d9d7-4fb8-a808-6145f68cc9c0")
+	)
+	(pad "1" thru_hole circle
+		(at -5.588 0 90)
+		(size 2 2)
+		(drill 1.2)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "edf66dee-d408-496a-8ce2-c418cdd17b2f")
+	)
+	(pad "2" thru_hole circle
+		(at 16.256 0 90)
+		(size 2 2)
+		(drill 1.2)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "625141a9-a85d-472f-b903-5dde83de3b86")
+	)
+	(embedded_fonts no)
+)
