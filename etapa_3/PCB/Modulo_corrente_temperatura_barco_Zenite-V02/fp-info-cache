@@ -1,4 +1,4 @@
-26647065085019917
+26648847690112740
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -106253,6 +106253,13 @@ Varistor VF
 2
 2
 pi-III-lib
+2EDRC_4pins
+2EDGRC-5.08-04P-14-00A(H)-
+Connector
+0
+4
+4
+pi-III-lib
 ASPI0630LR5R6MT15
 ASPI-0630LR-5R6M-T15
 Inductor
@@ -106286,7 +106293,7 @@ TE_RJ45-8N-B
 
 0
 10
-10
+9
 pi-III-lib
 fuse_holder
 Fuse Holder MF-563, 4A 250V AC, φ5.2x20mm fuse
