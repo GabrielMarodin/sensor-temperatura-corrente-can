@@ -68,3 +68,12 @@ O PT100 deve ser conectado no MAX31865 nos conectores de parafuso.
    Modo de conexão de 3 fios do PT100.
 
    No modo 3 wires 2 fios estão em paralelo e 1 fio tem 100 ohms de resistência a 0 graus celsius em relação aos outros, os fios com resistência muito baixa entre si devem ser conectados em RTD+ e F+, enquanto o terceiro fio deve ser conectado em RTD-.
+
+Referências (Links)
+*******************
+
+- `GitHub do Zênite Solar <https://github.com/ZeniteSolar>`_
+
+- `Firmware do Projeto </etapa_4/Firmware>`_
+
+- `Projeto KiCad da PCB </etapa_3/PCB/Modulo_corrente_temperatura_barco_Zenite>`_
