@@ -59,8 +59,50 @@ Validação da Aplicação
 
 
 Validação do Desempenho
-=======================
+***********************
 
+Sensor Hall
+======================
+
+O sensor de efeito Hall lido pelo ADC com offset teve os seguintes resultados:
+
+.. figure:: images/offset.jpeg
+
+A figura mostra o valor real medido do offset no divisor resistivo.
+
+.. figure:: images/F0001TEK.JPG
+
+A figura mostra o valor de tensão com corrente positiva no shunt de 16 Ohms do sensor de corrente.
+
+.. figure:: images/F0000TEK.JPG
+
+A figura mostra o valor de tensão com corrente negativa no shunt de 16 Ohms do sensor de corrente.
+
+.. figure:: images/ADC.png
+
+A figura mostra o valor lido e convertido utilizando a fórmula `previamente exposta na etapa 2 <../etapa_2/README.rst#L55>`_.
+
+Pode-se concluir que há uma variação de 3 mA o que era esperado para a resolução de 10 bits mais as não idealidades propagadas.
+
+Sensor de temperatura
+======================
+
+O sensor temperatura lido pelo SPI da breakout board MAX31865 teve os seguintes resultados:
+
+.. figure:: images/temp_ambiente.jpeg
+
+A figura mostra a temperatura ambiente no momento de teste.
+
+.. figure:: images/temp1.jpeg
+
+A figura mostra a temperatura lida e calculada do PT100.
+
+.. figure:: images/temp2.jpeg
+
+A figura mostra a temperatura do PT100 depois de um tempo em contato com a mão.
+
+O ADC do MAX31865 é de 16 bits com 15 bits de RTD a resolução é alta e o maior fator de erro é o valor do resistor de referência, alterar a macro do software do [RREF] para o valor medido com um multímetro na hora 
+afeta a exatidão da temperatura dastricamente.
 
 Verificação da Integridade dos Dados
 ====================================
@@ -69,6 +111,17 @@ Verificação da Integridade dos Dados
 Referências (links/datasheets/livros)
 *************************************
 
-- `nRF Connect SDK <https://developer.nordicsemi.com/nRF_Connect_SDK/doc/2.4.2/nrf/getting_started/modifying.html#configure-application>`_
+- `Código de interface MCP2515 <https://github.com/eziya/STM32_SPI_MCP2515/tree/master>`_
 
+- `Datasheet do MCP2515 <https://www.microchip.com/en-us/product/mcp2515>`_
+
+- `Datasheet do MAX31865 <https://www.analog.com/media/en/technical-documentation/data-sheets/max31865.pdf>`_
+
+- `Datasheet do TLV2376 <https://www.ti.com/product/TLV2376/part-details/TLV2376IDGKR>`_
+
+- `Datasheet do TJA1050 <https://www.nxp.com/docs/en/data-sheet/TJA1050.pdf>`_
+
+- `Fundamentos da camada física do CAN <https://www.ti.com/lit/an/slla270/slla270.pdf?ts=1783507668427>`_
+
+- `GitHub do Zenite Solar <https://github.com/ZeniteSolar>`_
 

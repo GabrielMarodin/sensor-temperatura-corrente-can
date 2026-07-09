@@ -52,7 +52,11 @@
       "shapes"
     ],
     "visible_layers": "ffffffff_ffffffff_ffffffff_ffffffff",
+<<<<<<< HEAD
     "zone_display_mode": 1
+=======
+    "zone_display_mode": 0
+>>>>>>> 01da5c15dfdb37bff2200ea80ef5f0aec13730bc
   },
   "git": {
     "integration_disabled": false,
