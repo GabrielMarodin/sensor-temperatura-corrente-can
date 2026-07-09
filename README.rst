@@ -16,13 +16,17 @@ Este projeto foi implementado com os seguintes módulos/softwares/hardwares:
  | MCP2515 (Controlador CAN);
  | TJA1050 (Transceptor CAN);  
  | Linguagem de programação C.  
- | STM32F401.  
+ | Microcontrolador STM32F401 com SPI, ADC e regulador de 5V para 3V3.  
 
 
 Visão geral
 ***********
 
-Esse projeto faz parta do barco solar e ...
+Esse projeto faz parta do barco solar Zênite Solar.
+
+É um sistema microcontrolado embarcado ao barco que possui capacidade de ler temperaturas em pontos estratégicos do barco e a corrente do motor.
+
+O microcontrolador lê e trata os dados e empacota em um frame CAN para transmitir, através a implementação do controlador e transmissor CAN, para a saída do conector RJ45.
 
 O desenvolvimento foi divido em quatro etapas:
 
@@ -31,55 +35,29 @@ O desenvolvimento foi divido em quatro etapas:
 - Etapa 3 (28/05/2026): Desenvolvimento do produto.
 - Etapa 4 (09/07/2026): Implementação e análise de desempenho.
 
-Configuração
-*************
-
-Projeto foi implementado com o nRF OpenConnect SDK versão 2.4.x.
-Consulte `Configuring your application <https://developer.nordicsemi.com/nRF_Connect_SDK/doc/2.4.2/nrf/getting_started/modifying.html#configure-application>`_ para obter informações sobre como alterar a configuração permanente ou temporariamente.
-
-A configuração do perfil do dispositivo é realizada no arquivo de configuração `prj.conf <prj.conf>`_:
-
-- End-Device:
-
-.. code:: C 
-
-  (...)
-  CONFIG_ZIGBEE_ROLE_END_DEVICE=y  
-  # CONFIG_ZIGBEE_ROLE_ROUTER=y
-  // Versão do firmware
-  CONFIG_MCUBOOT_IMAGE_VERSION="0.0.3"
-  CONFIG_ZIGBEE_FOTA_COMMENT="ruido_zigbee_endpoint"
-  # CONFIG_ZIGBEE_FOTA_COMMENT="ruido_zigbee_router"
-
 
 Interface do usuário
 ********************
-
-LED 1:
-  Pisca enquanto o filtro estiver ativo.
-
-Botão 1:
-  Ativa o módulo xyz.
-
-
-Compilando e executando
-***********************
-
-Colocar detalhes na construção da applicação. Exemplo: 
-
-Para compilar o projeto com o Visual Studio Code, siga as etapas listadas na página `How to build an application <https://nrfconnect.github.io/vscode-nrf-connect/get_started/build_app_ncs.html>`_  na documentação da extensão nRF Connect for VS Code.  `Building and programming an application  <https://developer.nordicsemi.com/nRF_Connect_SDK/doc/2.4.2/nrf/getting_started/programming.html#gs-programming>`_ para outros cenários de construção e programação e `Testing and debugging an application <https://developer.nordicsemi.com/nRF_Connect_SDK/doc/2.4.2/nrf/getting_started/testing.html#gs-testing>`_ para obter informações gerais sobre testes e depuração no nRF Connect SDK.
-
-Recomenda-se o uso do J-Link para gravação e/ou depuração.
+LED de respiração:
+  Pisca enquanto o RTOS estiver ativo.
 
 Testando
 ========
 
-Após programar o microcontrolador, conclua as etapas a seguir para testá-lo:
-
-1. ...
+Para testar pode ser usado o debugger do microcontrolador para ler as variáveis e registradores ou um analizador de CAN para capturar as mensagens transmitidas.
 
 Montagem
 ********
 
-Breve descrição da montagem final do projeto.
+O sistema é alimentado e transmite os frames CAN pelo conector RJ45;
 
+O sensor de corretente de efeito hall deve ser conectado no conector de 4 pinos;
+
+O PT100 deve ser conectado no MAX31865 nos conectores de parafuso.
+
+.. image:: images/max_3wired.png
+   :height: 800px
+   :width: 600 px
+   :scale: 80 %
+
+Modo de conecção de 3 fios do PT100.
