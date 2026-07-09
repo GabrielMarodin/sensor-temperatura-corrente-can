@@ -746,7 +746,7 @@
       {
         "filename": "Modulo_corrente_temperatura_barco_Zenite.kicad_sch",
         "name": "Modulo_corrente_temperatura_barco_Zenite",
-        "uuid": "00000000-0000-0000-0000-000000000000"
+        "uuid": "1b5e2233-3864-4906-b770-4c3dd25f47ba"
       }
     ],
     "used_designators": "",
@@ -755,7 +755,7 @@
   "sheets": [
     [
       "1b5e2233-3864-4906-b770-4c3dd25f47ba",
-      "Root"
+      "Modulo_corrente_temperatura_barco_Zenite"
     ]
   ],
   "text_variables": {},
