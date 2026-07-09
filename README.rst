@@ -55,9 +55,7 @@ O sensor de corretente de efeito hall deve ser conectado no conector de 4 pinos;
 
 O PT100 deve ser conectado no MAX31865 nos conectores de parafuso.
 
-.. image:: images/max_3wired.png
-   :height: 800px
-   :width: 600 px
-   :scale: 80 %
+.. figure:: /images/max_3wired.jpg
+   :alt: MAX31865 breakout board com 3 fios conectados
 
-Modo de conecção de 3 fios do PT100.
+   Modo de conexão de 3 fios do PT100.
