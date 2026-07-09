@@ -68,12 +68,12 @@ Pinout do Blackpill
 ============ ==========  
 Blackpill    Devices 
 ============ ==========
-PA4 	       MAX31865 CS Device 1
-PA3 	       MAX31865 CS Device 2
-PA2 	       MAX31865 CS Device 3
-PA5 	       MAX31865 SCLK
-PA6	       MAX31865 MISO
-PA7	       MAX31865 MOSI
+PA8 	       MAX31865 CS Device 1
+PA9 	       MAX31865 CS Device 2
+PA10 	       MAX31865 CS Device 3
+PB13 	       MAX31865 SCLK
+PB14	       MAX31865 MISO
+PB15	       MAX31865 MOSI
 PB12	       MCP2515 CS
 PB13 	       MCP2515 SCLK
 PB14	       MCP2515 MISO
