@@ -104,6 +104,94 @@ A figura mostra a temperatura do PT100 depois de um tempo em contato com a mão.
 O ADC do MAX31865 é de 16 bits com 15 bits de RTD a resolução é alta e o maior fator de erro é o valor do resistor de referência, alterar a macro do software do [RREF] para o valor medido com um multímetro na hora 
 afeta a exatidão da temperatura dastricamente.
 
+Estimativas de processamento e desempenho do MCU
+======================
+Não houve tempo de executar testes quantitativos do processamento da CPU, portanto foram feitas estimativas baseadas
+no tempo médio dos processos mais lentos de cada tarefa e gastos típicos de corrente e ocupação da CPU.
+
+O período de ativação das tarefas é muito maior que o tempo de execução da tarefa mais lenta o que permite dizer que o sistema
+não tem dificuldade em atender as deadlines e mesmo assim ele é soft real-time considerando que perdas de dados ocasionais não
+causarão falhas críticas no sistema em que está embarcado.
+
+Tempo de execução de cada tarefa
+--------------------------------
+
++------------------+-----------------------------------------------+----------------------+
+| Tarefa           | Descrição                                     | Tempo estimado       |
++==================+===============================================+======================+
+| CurrentTask      | Processamento do buffer ADC                   | 20–60 µs             |
++------------------+-----------------------------------------------+----------------------+
+| CANCurrentTask   | Cálculo RMS, pico e envio CAN                 | 180–350 µs           |
++------------------+-----------------------------------------------+----------------------+
+| RTDTask          | Leitura de três sensores MAX31865             | 200–225 ms           |
++------------------+-----------------------------------------------+----------------------+
+| CANTempTask      | Empacotamento e envio CAN                     | 70–120 µs            |
++------------------+-----------------------------------------------+----------------------+
+
+Tempo de ocupação da CPU
+--------------------------------
+
++---------------------------+----------------+
+| Componente                | Utilização     |
++===========================+================+
+| Processamento ADC         | 1–3 %          |
++---------------------------+----------------+
+| Cálculo da corrente RMS   | 2–5 %          |
++---------------------------+----------------+
+| Driver CAN                | < 1 %          |
++---------------------------+----------------+
+| Escalonador FreeRTOS      | < 1 %          |
++---------------------------+----------------+
+| Processamento RTD         | < 1 %          |
++---------------------------+----------------+
+| Total estimado            | 5–10 %         |
++---------------------------+----------------+
+| CPU ociosa                | 90–95 %        |
++---------------------------+----------------+
+
+Medição do WCET (Worst-Case Execution Time)
+--------------------------------
+
++------------------+----------------------+------------------------------+
+| Tarefa           | WCET estimado        | Observação                   |
++==================+======================+==============================+
+| CurrentTask      | 60 µs                | Filtragem e cópia DMA        |
++------------------+----------------------+------------------------------+
+| CANCurrentTask   | 350 µs               | Inclui cálculo RMS e CAN     |
++------------------+----------------------+------------------------------+
+| RTDTask          | 225 ms               | Inclui atrasos HAL_Delay()   |
++------------------+----------------------+------------------------------+
+| CANTempTask      | 120 µs               | Montagem e transmissão CAN   |
++------------------+----------------------+------------------------------+
+| RTDTask (CPU)    | 300–500 µs           | Desconsiderando HAL_Delay()  |
++------------------+----------------------+------------------------------+
+
+Eficiência energética da placa
+--------------------------------
+
++--------------------------------+-----------------------------+
+| Parâmetro                      | Valor estimado              |
++================================+=============================+
+| Frequência do processador      | 84 MHz                      |
++--------------------------------+-----------------------------+
+| Consumo típico do STM32F4      | 25–35 mA @ 3,3 V            |
++--------------------------------+-----------------------------+
+| Potência estimada do MCU       | 80–115 mW                   |
++--------------------------------+-----------------------------+
+| Utilização média da CPU        | 5–10 %                      |
++--------------------------------+-----------------------------+
+| Tempo ocioso da CPU            | 90–95 %                     |
++--------------------------------+-----------------------------+
+| Uso de DMA                     | Sim                         |
++--------------------------------+-----------------------------+
+| Uso de filas do FreeRTOS       | Sim                         |
++--------------------------------+-----------------------------+
+| Polling contínuo               | Não                         |
++--------------------------------+-----------------------------+
+| Classificação da eficiência    | Alta                        |
++--------------------------------+-----------------------------+
+
+
 Verificação da Integridade dos Dados
 ====================================
 
@@ -125,3 +213,10 @@ Referências (links/datasheets/livros)
 
 - `GitHub do Zenite Solar <https://github.com/ZeniteSolar>`_
 
+- `ARM Cortex-M4 Technical Reference Manual (DWT CYCCNT) <https://documentation-service.arm.com/static/5fce431be167456a35b36ade>`_
+
+- `ARM Cortex-M4 Processor Datasheet <https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/Processor%20Datasheets/Arm%20Cortex-M4%20Processor%20Datasheet.pdf>`_
+
+- `STM32F4 Series Documentation (Reference Manuals and Datasheets) <https://www.st.com/en/microcontrollers-microprocessors/stm32f4-series/documentation.html>`_
+
+- `STM32F407/417 Documentation (Reference Manual RM0090 and Datasheets) <https://www.st.com/en/microcontrollers-microprocessors/stm32f407-417/documentation.html>`_
