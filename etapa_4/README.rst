@@ -69,6 +69,17 @@ Verificação da Integridade dos Dados
 Referências (links/datasheets/livros)
 *************************************
 
-- `nRF Connect SDK <https://developer.nordicsemi.com/nRF_Connect_SDK/doc/2.4.2/nrf/getting_started/modifying.html#configure-application>`_
+- `Código de interface MCP2515 <https://github.com/eziya/STM32_SPI_MCP2515/tree/master>`_
 
+- `Datasheet do MCP2515 <https://www.microchip.com/en-us/product/mcp2515>`_
+
+- `Datasheet do MAX31865 <https://www.analog.com/media/en/technical-documentation/data-sheets/max31865.pdf>`_
+
+- `Datasheet do TLV2376 <https://www.ti.com/product/TLV2376/part-details/TLV2376IDGKR>`_
+
+- `Datasheet do TJA1050 <https://www.nxp.com/docs/en/data-sheet/TJA1050.pdf>`_
+
+- `Fundamentos da camada física do CAN <https://www.ti.com/lit/an/slla270/slla270.pdf?ts=1783507668427>`_
+
+- `GitHub do Zenite Solar <https://github.com/ZeniteSolar>`_
 
