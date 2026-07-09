@@ -24,6 +24,11 @@ Visão geral
 
 Esse projeto faz parta do barco solar Zênite Solar.
 
+.. figure:: /images/pcb_3dmodel.png
+   :alt: Modelo 3D da placa de circuito impresso
+   :align: center
+   :name: 3D model of PCB.
+
 É um sistema microcontrolado embarcado ao barco que possui capacidade de ler temperaturas em pontos estratégicos do barco e a corrente do motor.
 
 O microcontrolador lê e trata os dados e empacota em um frame CAN para transmitir, através a implementação do controlador e transmissor CAN, para a saída do conector RJ45.
@@ -57,5 +62,9 @@ O PT100 deve ser conectado no MAX31865 nos conectores de parafuso.
 
 .. figure:: /images/max_3wired.jpg
    :alt: MAX31865 breakout board com 3 fios conectados
+   :align: center
+   :name: MAX31865 connection
 
    Modo de conexão de 3 fios do PT100.
+
+   No modo 3 wires 2 fios estão em paralelo e 1 fio tem 100 ohms de resistência a 0 graus celsius em relação aos outros, os fios com resistência muito baixa entre si devem ser conectados em RTD+ e F+, enquanto o terceiro fio deve ser conectado em RTD-.
