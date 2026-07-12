@@ -35,10 +35,10 @@ O microcontrolador lê e trata os dados e empacota em um frame CAN para transmit
 
 O desenvolvimento foi divido em quatro etapas:
 
-- Etapa 1 (02/04/2026): Pesquisa, planejamento e outline do projeto.
-- Etapa 2 (30/04/2026): Teste dos módulos e desenvolvimento de protótipo.
-- Etapa 3 (28/05/2026): Desenvolvimento do produto.
-- Etapa 4 (09/07/2026): Implementação e análise de desempenho.
+- `Etapa 1 </etapa_1>`_ (02/04/2026): Pesquisa, planejamento e outline do projeto.
+- `Etapa 2 </etapa_2>`_ (30/04/2026): Teste dos módulos e desenvolvimento de protótipo.
+- `Etapa 3 </etapa_3>`_ (28/05/2026): Desenvolvimento do produto.
+- `Etapa 4 </etapa_4>`_ (09/07/2026): Implementação e análise de desempenho.
 
 
 Interface do usuário
